@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "src/app/api/generate-story/route.ts": {
+      "maxDuration": 60
+    },
+    "src/app/api/stories/[id]/print/route.ts": {
+      "maxDuration": 30
+    }
+  }
+}
