@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -53,6 +54,7 @@ function StatCard({
 
 export default function PerfilPage() {
   const router = useRouter();
+  const t = useTranslations("profile");
   const [stats, setStats] = useState<ProfileStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedLang, setSelectedLang] = useState("es");
@@ -81,6 +83,7 @@ export default function PerfilPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ lang_ui: lang }),
       });
+      router.refresh();
     } catch {
       // silent — preference saved optimistically
     } finally {
@@ -122,11 +125,11 @@ export default function PerfilPage() {
         </div>
         <div className="text-center">
           <h1 className="font-display italic text-2xl text-primary-dark">
-            Mi Perfil
+            {t("title")}
           </h1>
           {memberSinceFormatted && (
             <p className="text-xs text-text-secondary mt-0.5">
-              Miembro desde {memberSinceFormatted}
+              {t("member_since")} {memberSinceFormatted}
             </p>
           )}
         </div>
@@ -135,7 +138,7 @@ export default function PerfilPage() {
       {/* Stats grid */}
       <section>
         <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wide mb-3 px-1">
-          Estadísticas
+          {t("stats_heading")}
         </h2>
         {loading ? (
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
@@ -151,29 +154,29 @@ export default function PerfilPage() {
             <StatCard
               emoji="📚"
               value={stats?.totalStories ?? 0}
-              label="Cuentos creados"
+              label={t("stories_created")}
             />
             <StatCard
               emoji="🎭"
               value={stats?.totalCharacters ?? 0}
-              label="Personajes"
+              label={t("characters_stat")}
             />
             <StatCard
               emoji="⏱"
               value={stats?.totalReadingMinutes ?? 0}
-              label="Min de lectura"
+              label={t("reading_min")}
             />
             <StatCard
               emoji="⭐"
               value={stats?.favoritesCount ?? 0}
-              label="Favoritos"
+              label={t("favorites")}
             />
           </div>
         )}
 
         {stats?.avgRating !== null && stats?.avgRating !== undefined && (
           <p className="text-xs text-text-secondary text-center mt-3">
-            Valoración media de tus cuentos:{" "}
+            {t("avg_rating_prefix")}{" "}
             <span className="font-semibold text-text-primary">
               {stats.avgRating} / 5 ⭐
             </span>
@@ -187,13 +190,13 @@ export default function PerfilPage() {
         style={{ boxShadow: "var(--shadow-ambient)" }}
       >
         <h2 className="text-sm font-semibold text-text-primary mb-1">
-          Idioma de la interfaz
+          {t("lang_title")}
         </h2>
         <p className="text-xs text-text-secondary mb-4">
-          Idioma en el que se mostrará la aplicación
+          {t("lang_subtitle")}
           {savingLang && (
             <span className="ml-2 text-primary-dark animate-pulse">
-              Guardando…
+              {t("saving")}
             </span>
           )}
         </p>
@@ -231,11 +234,10 @@ export default function PerfilPage() {
         style={{ boxShadow: "var(--shadow-ambient)" }}
       >
         <h2 className="text-sm font-semibold text-text-primary mb-1">
-          Sesión
+          {t("session_title")}
         </h2>
         <p className="text-xs text-text-secondary mb-4">
-          Cerrar sesión elimina tu token local. Tu código de acceso sigue
-          siendo válido para volver a entrar.
+          {t("session_desc")}
         </p>
         <button
           onClick={handleLogout}
@@ -243,14 +245,13 @@ export default function PerfilPage() {
           className="w-full py-3 px-6 rounded-full text-sm font-semibold text-white transition-opacity disabled:opacity-50"
           style={{ background: "linear-gradient(135deg, #EF4444 0%, #B91C1C 100%)" }}
         >
-          {loggingOut ? "Cerrando sesión…" : "🚪 Cerrar sesión"}
+          {loggingOut ? t("logging_out") : t("logout_btn")}
         </button>
       </section>
 
       {/* Privacy note */}
       <p className="text-xs text-text-secondary text-center leading-relaxed pb-4">
-        Tu privacidad es nuestra prioridad. No almacenamos ningún dato
-        personal — solo tu código de acceso te identifica.
+        {t("privacy")}
       </p>
     </div>
   );

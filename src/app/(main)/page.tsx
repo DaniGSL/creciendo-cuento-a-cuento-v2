@@ -1,4 +1,6 @@
 import Link from "next/link";
+import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
 import { createServerClient } from "@/lib/supabase/server";
 import { GENRE_STYLES } from "@/lib/utils/genre";
@@ -23,6 +25,8 @@ export default async function HomePage() {
       .limit(8),
   ]);
 
+  const t = await getTranslations("home");
+
   const stories = (storiesResult.data ?? []) as Pick<
     Story,
     "id" | "title" | "genre" | "language" | "reading_time" | "created_at"
@@ -42,13 +46,14 @@ export default async function HomePage() {
             "linear-gradient(135deg, rgba(125,167,240,0.18) 0%, rgba(152,216,170,0.12) 100%)",
         }}
       >
-        <div className="flex-1 space-y-4">
+        <div className="flex-[3] space-y-4">
           <h1 className="font-display italic text-3xl md:text-4xl text-primary-dark leading-tight">
-            ¡Bienvenido a su refugio<br />de historias!
+            {t("hero_title").split("\n").map((line, i) => (
+              <span key={i}>{line}{i === 0 && <br />}</span>
+            ))}
           </h1>
-          <p className="text-text-secondary text-sm md:text-base max-w-md">
-            Transforme cada pequeño momento en una aventura mágica. Cree cuentos
-            personalizados para acompañar el crecimiento de su bebé.
+          <p className="text-text-secondary text-sm md:text-base">
+            {t("hero_subtitle")}
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <Link
@@ -62,7 +67,7 @@ export default async function HomePage() {
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
               </svg>
-              Crear Cuento
+              {t("create_story")}
             </Link>
             <Link
               href="/biblioteca"
@@ -72,16 +77,20 @@ export default async function HomePage() {
                 color: "var(--color-primary-dark)",
               }}
             >
-              Ver Biblioteca
+              {t("view_library")}
             </Link>
           </div>
         </div>
-        {/* Decorative */}
-        <div
-          className="hidden md:flex w-40 h-40 rounded-full items-center justify-center flex-shrink-0 text-7xl"
-          style={{ background: "rgba(255,255,255,0.6)" }}
-        >
-          📚
+        {/* Hero image */}
+        <div className="hidden md:flex flex-shrink-0 items-center justify-center" style={{ width: 220, height: 220 }}>
+          <Image
+            src="/hero-magic.webp"
+            alt="Libro mágico de cuentos"
+            width={220}
+            height={220}
+            priority
+            style={{ objectFit: "contain", borderRadius: "1rem" }}
+          />
         </div>
       </section>
 
@@ -93,12 +102,12 @@ export default async function HomePage() {
             <div className="flex items-center gap-2">
               <span className="text-lg">📖</span>
               <h2 className="font-semibold text-text-primary text-sm uppercase tracking-wide">
-                Mi Biblioteca
+                {t("my_library")}
               </h2>
             </div>
             {stories.length > 0 && (
               <Link href="/biblioteca" className="text-xs font-medium text-primary-dark hover:underline">
-                Ver todo →
+                {t("see_all")}
               </Link>
             )}
           </div>
@@ -107,17 +116,17 @@ export default async function HomePage() {
             <div className="text-center py-8">
               <p className="text-3xl mb-2">🌱</p>
               <p className="text-sm font-medium text-text-primary mb-1">
-                Aún no hay cuentos
+                {t("no_stories_title")}
               </p>
               <p className="text-xs text-text-secondary mb-4">
-                ¡Crea tu primera historia ahora!
+                {t("no_stories_subtitle")}
               </p>
               <Link
                 href="/generar"
                 className="inline-block px-4 py-2 rounded-full text-xs font-semibold text-white"
                 style={{ background: "var(--color-primary-dark)" }}
               >
-                Crear cuento
+                {t("create_story_btn")}
               </Link>
             </div>
           ) : (
@@ -170,12 +179,12 @@ export default async function HomePage() {
             <div className="flex items-center gap-2">
               <span className="text-lg">😊</span>
               <h2 className="font-semibold text-text-primary text-sm uppercase tracking-wide">
-                Personajes
+                {t("characters_section")}
               </h2>
             </div>
             {characters.length > 0 && (
               <Link href="/personajes" className="text-xs font-medium text-primary-dark hover:underline">
-                Ver todo →
+                {t("see_all")}
               </Link>
             )}
           </div>
@@ -184,7 +193,7 @@ export default async function HomePage() {
             <div className="text-center py-6">
               <p className="text-3xl mb-2">🎭</p>
               <p className="text-sm text-text-secondary">
-                Los personajes que crees se guardarán aquí.
+                {t("characters_empty")}
               </p>
             </div>
           ) : (
@@ -212,7 +221,7 @@ export default async function HomePage() {
               color: "var(--color-text-secondary)",
             }}
           >
-            + Crear nuevo cuento
+            {t("create_new")}
           </Link>
         </div>
       </div>

@@ -6,20 +6,7 @@
  * Called ONLY from client components (browser environment).
  */
 
-import type { Story, StoryGenre } from "@/types/database";
-
-// ─── Colour palette per genre (same palette as LTR) ─────────────────────────
-
-const GENRE_COLORS: Record<StoryGenre, { accent: string; textOnAccent: string }> = {
-  Aventura:           { accent: "#7DA7F0", textOnAccent: "#1E3A5F" },
-  Fantasía:           { accent: "#C4B5FD", textOnAccent: "#4C1D95" },
-  Animales:           { accent: "#98D8AA", textOnAccent: "#065F46" },
-  Espacio:            { accent: "#1E3A5F", textOnAccent: "#FFFFFF" },
-  Naturaleza:         { accent: "#86EFAC", textOnAccent: "#14532D" },
-  "Cuento de Cuna":   { accent: "#FDE68A", textOnAccent: "#92400E" },
-  Amistad:            { accent: "#F9D976", textOnAccent: "#713F12" },
-  Misterio:           { accent: "#6B7280", textOnAccent: "#FFFFFF" },
-};
+import type { Story } from "@/types/database";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -35,8 +22,6 @@ function escHtml(str: string): string {
 // ─── Main export ─────────────────────────────────────────────────────────────
 
 export async function generateRtlPdf(story: Story): Promise<void> {
-  const colors = GENRE_COLORS[story.genre];
-
   // ── Build HTML content ────────────────────────────────────────────────────
   const paragraphsHtml = story.content
     .split(/\n{2,}/)
@@ -45,36 +30,6 @@ export async function generateRtlPdf(story: Story): Promise<void> {
         `<p style="font-size:13px;line-height:2;margin:0 0 14px 0;">${escHtml(p.trim()).replace(/\n/g, "<br>")}</p>`
     )
     .join("");
-
-  const charactersHtml =
-    story.characters.length > 0
-      ? `<div style="border-top:1px solid #E5E7EB;margin:24px 0 16px;padding-top:16px;">
-           <p style="font-size:8px;font-weight:bold;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin:0 0 10px 0;">
-             شخصيات القصة / کردارها
-           </p>
-           ${story.characters
-             .map(
-               (c) =>
-                 `<p style="font-size:11px;margin:0 0 6px 0;">
-                    <strong>${escHtml(c.name)}:</strong> ${escHtml(c.description)}
-                  </p>`
-             )
-             .join("")}
-         </div>`
-      : "";
-
-  const headerHtml = `
-    <div style="display:flex;justify-content:space-between;align-items:center;
-                padding:10px 12px;background:${colors.accent};border-radius:6px;
-                margin-bottom:24px;direction:ltr;">
-      <span style="font-size:9px;font-weight:bold;color:${colors.textOnAccent};">
-        ${escHtml(story.genre.toUpperCase())}
-      </span>
-      <span style="font-size:9px;color:${colors.textOnAccent};">
-        ${escHtml(story.language)} · ${story.reading_time} min
-      </span>
-    </div>
-  `;
 
   // ── Create hidden container ───────────────────────────────────────────────
   // 794 px = A4 width at 96 dpi
@@ -94,13 +49,11 @@ export async function generateRtlPdf(story: Story): Promise<void> {
   });
 
   container.innerHTML = `
-    ${headerHtml}
     <h1 style="font-size:24px;font-weight:bold;color:#2d5b9f;line-height:1.4;margin:0 0 20px 0;">
       ${escHtml(story.title)}
     </h1>
     <div style="border-top:1px solid #E5E7EB;margin:0 0 20px 0;"></div>
     ${paragraphsHtml}
-    ${charactersHtml}
     <p style="font-size:9px;color:#9CA3AF;text-align:center;margin-top:40px;font-style:italic;">
       Generado con Creciendo Cuento a Cuento
     </p>

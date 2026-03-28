@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Home",
+    "generate": "Create",
+    "library": "Library",
+    "characters": "Characters",
+    "profile": "Profile",
+    "create_aria": "Create story"
+  },
+  "home": {
+    "hero_title": "Welcome to your stories'\nsanctuary!",
+    "hero_subtitle": "Turn every little moment into a magical adventure. Create personalized stories to accompany your baby's growth.",
+    "create_story": "Create Story",
+    "view_library": "View Library",
+    "my_library": "My Library",
+    "see_all": "View all →",
+    "no_stories_title": "No stories yet",
+    "no_stories_subtitle": "Create your first story now!",
+    "create_story_btn": "Create story",
+    "new_story_btn": "+ Create new story",
+    "characters_section": "Characters",
+    "characters_empty": "Characters you create will be saved here.",
+    "create_new": "+ Create new story"
+  },
+  "access": {
+    "tagline": "Your personalized stories sanctuary",
+    "title": "Enter your access code",
+    "subtitle": "Your professional has provided you with a personal code",
+    "placeholder": "LUNA-GATO-AZUL-7834",
+    "btn": "Access",
+    "loading": "Accessing...",
+    "no_code": "Don't have a code? Contact your reference professional.",
+    "code_personal": "Your code is personal — keep it in a safe place.",
+    "privacy": "We don't collect personal data. Your code is your identity."
+  },
+  "library": {
+    "title": "My Story Library",
+    "loading": "Loading…",
+    "stories_count_one": "story created",
+    "stories_count_other": "stories created",
+    "filter_all": "All",
+    "filter_favorites": "⭐ Favorites",
+    "no_stories_title": "No stories yet",
+    "no_stories_subtitle": "Create your first story and it will appear here!",
+    "create_btn": "✨ Create story",
+    "new_story_card": "Create new story",
+    "no_filter": "No stories match these filters."
+  },
+  "characters": {
+    "title": "My Characters",
+    "add_btn": "Add character",
+    "name_placeholder": "Character name",
+    "desc_placeholder": "Brief description (optional)",
+    "save_btn": "Save",
+    "cancel_btn": "Cancel",
+    "edit_btn": "Edit",
+    "delete_btn": "Delete",
+    "confirm_delete": "Are you sure?",
+    "empty_title": "Create your first character",
+    "empty_subtitle": "when generating a story"
+  },
+  "profile": {
+    "title": "My Profile",
+    "member_since": "Member since",
+    "stats_heading": "Statistics",
+    "stories_created": "Stories created",
+    "characters_stat": "Characters",
+    "reading_min": "Reading min",
+    "favorites": "Favorites",
+    "avg_rating_prefix": "Average rating of your stories:",
+    "lang_title": "Interface language",
+    "lang_subtitle": "Language in which the application will be displayed",
+    "saving": "Saving…",
+    "session_title": "Session",
+    "session_desc": "Logging out removes your local token. Your access code remains valid to log back in.",
+    "logout_btn": "🚪 Log out",
+    "logging_out": "Logging out…",
+    "privacy": "Your privacy is our priority. We don't store any personal data — only your access code identifies you."
+  }
+}

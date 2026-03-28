@@ -40,7 +40,7 @@ export async function GET() {
           ratedStories.length
         : null;
 
-    return NextResponse.json({
+    const response = NextResponse.json({
       totalStories,
       totalCharacters,
       totalReadingMinutes,
@@ -49,6 +49,14 @@ export async function GET() {
       langUi: profileRes.data?.lang_ui ?? "es",
       memberSince: profileRes.data?.created_at ?? null,
     });
+    response.cookies.set("lang_ui", profileRes.data?.lang_ui ?? "es", {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return response;
   } catch (e) {
     if (e instanceof Response) return e;
     console.error("GET /api/profile error:", e);
@@ -83,7 +91,15 @@ export async function PATCH(request: NextRequest) {
       .eq("id", session.profileId);
 
     if (error) throw error;
-    return NextResponse.json({ success: true });
+    const response = NextResponse.json({ success: true });
+    response.cookies.set("lang_ui", parsed.data.lang_ui, {
+      httpOnly: true,
+      path: "/",
+      maxAge: 60 * 60 * 24 * 365,
+      sameSite: "lax",
+      secure: process.env.NODE_ENV === "production",
+    });
+    return response;
   } catch (e) {
     if (e instanceof Response) return e;
     console.error("PATCH /api/profile error:", e);

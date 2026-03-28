@@ -2,9 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 export default function AccesoPage() {
   const router = useRouter();
+  const t = useTranslations("access");
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -55,7 +57,7 @@ export default function AccesoPage() {
             Creciendo Cuento a Cuento
           </h1>
           <p className="text-text-secondary text-sm">
-            Tu refugio de historias personalizadas
+            {t("tagline")}
           </p>
         </div>
 
@@ -67,10 +69,10 @@ export default function AccesoPage() {
           <div className="mb-6 text-center">
             <div className="text-4xl mb-3">📖</div>
             <h2 className="text-xl font-semibold text-text-primary mb-1">
-              Introduce tu código de acceso
+              {t("title")}
             </h2>
             <p className="text-text-secondary text-sm">
-              Tu profesional te ha proporcionado un código personal
+              {t("subtitle")}
             </p>
           </div>
 
@@ -80,7 +82,7 @@ export default function AccesoPage() {
                 type="text"
                 value={code}
                 onChange={handleInput}
-                placeholder="LUNA-GATO-AZUL-7834"
+                placeholder={t("placeholder")}
                 className="w-full text-center text-lg font-mono tracking-widest px-4 py-3 rounded-xl bg-surface-low border border-transparent focus:outline-none focus:border-primary transition-colors placeholder:text-text-secondary/50 text-text-primary"
                 style={{ borderColor: error ? "var(--color-danger)" : undefined }}
                 autoComplete="off"
@@ -125,24 +127,24 @@ export default function AccesoPage() {
                       d="M4 12a8 8 0 018-8v8H4z"
                     />
                   </svg>
-                  Accediendo...
+                  {t("loading")}
                 </span>
               ) : (
-                "Acceder"
+                t("btn")
               )}
             </button>
           </form>
 
           <p className="mt-6 text-xs text-text-secondary text-center leading-relaxed">
-            ¿No tienes código? Consulta a tu profesional de referencia.
+            {t("no_code")}
             <br />
-            Tu código es personal — guárdalo en un lugar seguro.
+            {t("code_personal")}
           </p>
         </div>
 
         {/* Privacy note */}
         <p className="mt-4 text-xs text-text-secondary text-center">
-          No recopilamos datos personales. Tu código es tu identidad.
+          {t("privacy")}
         </p>
       </div>
     </div>

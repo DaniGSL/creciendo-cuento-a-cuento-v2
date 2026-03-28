@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "generate": "Generar",
+    "library": "Biblioteca",
+    "characters": "Personajes",
+    "profile": "Perfil",
+    "create_aria": "Crear cuento"
+  },
+  "home": {
+    "hero_title": "¡Bienvenido a su refugio\nde historias!",
+    "hero_subtitle": "Transforme cada pequeño momento en una aventura mágica. Cree cuentos personalizados para acompañar el crecimiento de su bebé.",
+    "create_story": "Crear Cuento",
+    "view_library": "Ver Biblioteca",
+    "my_library": "Mi Biblioteca",
+    "see_all": "Ver todo →",
+    "no_stories_title": "Aún no hay cuentos",
+    "no_stories_subtitle": "¡Crea tu primera historia ahora!",
+    "create_story_btn": "Crear cuento",
+    "new_story_btn": "+ Crear nuevo cuento",
+    "characters_section": "Personajes",
+    "characters_empty": "Los personajes que crees se guardarán aquí.",
+    "create_new": "+ Crear nuevo cuento"
+  },
+  "access": {
+    "tagline": "Tu refugio de historias personalizadas",
+    "title": "Introduce tu código de acceso",
+    "subtitle": "Tu profesional te ha proporcionado un código personal",
+    "placeholder": "LUNA-GATO-AZUL-7834",
+    "btn": "Acceder",
+    "loading": "Accediendo...",
+    "no_code": "¿No tienes código? Consulta a tu profesional de referencia.",
+    "code_personal": "Tu código es personal — guárdalo en un lugar seguro.",
+    "privacy": "No recopilamos datos personales. Tu código es tu identidad."
+  },
+  "library": {
+    "title": "Mi Biblioteca de Cuentos",
+    "loading": "Cargando…",
+    "stories_count_one": "cuento creado",
+    "stories_count_other": "cuentos creados",
+    "filter_all": "Todos",
+    "filter_favorites": "⭐ Favoritos",
+    "no_stories_title": "Aún no hay cuentos",
+    "no_stories_subtitle": "¡Crea tu primera historia y aparecerá aquí!",
+    "create_btn": "✨ Crear cuento",
+    "new_story_card": "Crear nueva historia",
+    "no_filter": "No hay cuentos con estos filtros."
+  },
+  "characters": {
+    "title": "Mis Personajes",
+    "add_btn": "Añadir personaje",
+    "name_placeholder": "Nombre del personaje",
+    "desc_placeholder": "Descripción breve (opcional)",
+    "save_btn": "Guardar",
+    "cancel_btn": "Cancelar",
+    "edit_btn": "Editar",
+    "delete_btn": "Eliminar",
+    "confirm_delete": "¿Seguro?",
+    "empty_title": "Crea tu primer personaje",
+    "empty_subtitle": "al generar un cuento"
+  },
+  "profile": {
+    "title": "Mi Perfil",
+    "member_since": "Miembro desde",
+    "stats_heading": "Estadísticas",
+    "stories_created": "Cuentos creados",
+    "characters_stat": "Personajes",
+    "reading_min": "Min de lectura",
+    "favorites": "Favoritos",
+    "avg_rating_prefix": "Valoración media de tus cuentos:",
+    "lang_title": "Idioma de la interfaz",
+    "lang_subtitle": "Idioma en el que se mostrará la aplicación",
+    "saving": "Guardando…",
+    "session_title": "Sesión",
+    "session_desc": "Cerrar sesión elimina tu token local. Tu código de acceso sigue siendo válido para volver a entrar.",
+    "logout_btn": "🚪 Cerrar sesión",
+    "logging_out": "Cerrando sesión…",
+    "privacy": "Tu privacidad es nuestra prioridad. No almacenamos ningún dato personal — solo tu código de acceso te identifica."
+  }
+}

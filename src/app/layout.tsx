@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import { Noto_Serif, Plus_Jakarta_Sans } from "next/font/google";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, getLocale } from "next-intl/server";
 import "./globals.css";
 
 const notoSerif = Noto_Serif({
@@ -19,23 +21,25 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadata: Metadata = {
   title: "Creciendo Cuento a Cuento",
-  description:
-    "Crea cuentos personalizados para acompañar el crecimiento de tu bebé.",
+  description: "Crea cuentos personalizados para acompañar el crecimiento de tu bebé.",
   icons: { icon: "/favicon.ico" },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
+
   return (
     <html
-      lang="es"
+      lang={locale}
       className={`${notoSerif.variable} ${plusJakarta.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-neutral text-text-primary antialiased">
-        {children}
+        <NextIntlClientProvider messages={messages}>
+          {children}
+        </NextIntlClientProvider>
       </body>
     </html>
   );

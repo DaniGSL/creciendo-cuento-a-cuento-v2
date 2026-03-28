@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Inici",
+    "generate": "Generar",
+    "library": "Biblioteca",
+    "characters": "Personatges",
+    "profile": "Perfil",
+    "create_aria": "Crear conte"
+  },
+  "home": {
+    "hero_title": "Benvingut al vostre refugi\nd'històries!",
+    "hero_subtitle": "Transformeu cada petit moment en una aventura màgica. Creeu contes personalitzats per acompanyar el creixement del vostre bebè.",
+    "create_story": "Crear Conte",
+    "view_library": "Veure Biblioteca",
+    "my_library": "La meva Biblioteca",
+    "see_all": "Veure tot →",
+    "no_stories_title": "Encara no hi ha contes",
+    "no_stories_subtitle": "Crea la teva primera història ara!",
+    "create_story_btn": "Crear conte",
+    "new_story_btn": "+ Crear nova història",
+    "characters_section": "Personatges",
+    "characters_empty": "Els personatges que creïs es guardaran aquí.",
+    "create_new": "+ Crear nova història"
+  },
+  "access": {
+    "tagline": "El vostre refugi d'històries personalitzades",
+    "title": "Introdueix el teu codi d'accés",
+    "subtitle": "El teu professional t'ha proporcionat un codi personal",
+    "placeholder": "LUNA-GATO-AZUL-7834",
+    "btn": "Accedir",
+    "loading": "Accedint...",
+    "no_code": "No tens codi? Consulta el teu professional de referència.",
+    "code_personal": "El teu codi és personal — guarda'l en un lloc segur.",
+    "privacy": "No recopilem dades personals. El teu codi és la teva identitat."
+  },
+  "library": {
+    "title": "La meva Biblioteca de Contes",
+    "loading": "Carregant…",
+    "stories_count_one": "conte creat",
+    "stories_count_other": "contes creats",
+    "filter_all": "Tots",
+    "filter_favorites": "⭐ Favorits",
+    "no_stories_title": "Encara no hi ha contes",
+    "no_stories_subtitle": "Crea la teva primera història i apareixerà aquí!",
+    "create_btn": "✨ Crear conte",
+    "new_story_card": "Crear nova història",
+    "no_filter": "No hi ha contes amb aquests filtres."
+  },
+  "characters": {
+    "title": "Els meus Personatges",
+    "add_btn": "Afegir personatge",
+    "name_placeholder": "Nom del personatge",
+    "desc_placeholder": "Descripció breu (opcional)",
+    "save_btn": "Desar",
+    "cancel_btn": "Cancel·lar",
+    "edit_btn": "Editar",
+    "delete_btn": "Eliminar",
+    "confirm_delete": "Segur?",
+    "empty_title": "Crea el teu primer personatge",
+    "empty_subtitle": "en generar un conte"
+  },
+  "profile": {
+    "title": "El meu Perfil",
+    "member_since": "Membre des de",
+    "stats_heading": "Estadístiques",
+    "stories_created": "Contes creats",
+    "characters_stat": "Personatges",
+    "reading_min": "Min de lectura",
+    "favorites": "Favorits",
+    "avg_rating_prefix": "Valoració mitjana dels teus contes:",
+    "lang_title": "Idioma de la interfície",
+    "lang_subtitle": "Idioma en què es mostrarà l'aplicació",
+    "saving": "Desant…",
+    "session_title": "Sessió",
+    "session_desc": "Tancar sessió elimina el teu token local. El teu codi d'accés segueix sent vàlid per tornar a entrar.",
+    "logout_btn": "🚪 Tancar sessió",
+    "logging_out": "Tancant sessió…",
+    "privacy": "La teva privacitat és la nostra prioritat. No emmagatzemem cap dada personal — només el teu codi d'accés t'identifica."
+  }
+}

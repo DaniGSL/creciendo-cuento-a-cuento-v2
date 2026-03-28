@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "Inicio",
+    "generate": "Xerar",
+    "library": "Biblioteca",
+    "characters": "Personaxes",
+    "profile": "Perfil",
+    "create_aria": "Crear conto"
+  },
+  "home": {
+    "hero_title": "Benvido ao voso refuxio\nde historias!",
+    "hero_subtitle": "Transforma cada pequeno momento nunha aventura máxica. Crea contos personalizados para acompañar o crecemento do teu bebé.",
+    "create_story": "Crear Conto",
+    "view_library": "Ver Biblioteca",
+    "my_library": "A miña Biblioteca",
+    "see_all": "Ver todo →",
+    "no_stories_title": "Aínda non hai contos",
+    "no_stories_subtitle": "Crea a túa primeira historia agora!",
+    "create_story_btn": "Crear conto",
+    "new_story_btn": "+ Crear nova historia",
+    "characters_section": "Personaxes",
+    "characters_empty": "Os personaxes que crees gardaranse aquí.",
+    "create_new": "+ Crear nova historia"
+  },
+  "access": {
+    "tagline": "O voso refuxio de historias personalizadas",
+    "title": "Introduce o teu código de acceso",
+    "subtitle": "O teu profesional proporcionouche un código persoal",
+    "placeholder": "LUNA-GATO-AZUL-7834",
+    "btn": "Acceder",
+    "loading": "Accedendo...",
+    "no_code": "Non tes código? Consulta ao teu profesional de referencia.",
+    "code_personal": "O teu código é persoal — gárdao nun lugar seguro.",
+    "privacy": "Non recollemos datos persoais. O teu código é a túa identidade."
+  },
+  "library": {
+    "title": "A miña Biblioteca de Contos",
+    "loading": "Cargando…",
+    "stories_count_one": "conto creado",
+    "stories_count_other": "contos creados",
+    "filter_all": "Todos",
+    "filter_favorites": "⭐ Só favoritos",
+    "no_stories_title": "Aínda non hai contos",
+    "no_stories_subtitle": "Crea a túa primeira historia e aparecerá aquí!",
+    "create_btn": "✨ Crear conto",
+    "new_story_card": "Crear nova historia",
+    "no_filter": "Non hai contos con estes filtros."
+  },
+  "characters": {
+    "title": "Os meus Personaxes",
+    "add_btn": "Engadir personaxe",
+    "name_placeholder": "Nome do personaxe",
+    "desc_placeholder": "Descrición breve (opcional)",
+    "save_btn": "Gardar",
+    "cancel_btn": "Cancelar",
+    "edit_btn": "Editar",
+    "delete_btn": "Eliminar",
+    "confirm_delete": "¿Seguro?",
+    "empty_title": "Crea o teu primeiro personaxe",
+    "empty_subtitle": "ao xerar un conto"
+  },
+  "profile": {
+    "title": "O meu Perfil",
+    "member_since": "Membro desde",
+    "stats_heading": "Estatísticas",
+    "stories_created": "Contos creados",
+    "characters_stat": "Personaxes",
+    "reading_min": "Min de lectura",
+    "favorites": "Favoritos",
+    "avg_rating_prefix": "Valoración media dos teus contos:",
+    "lang_title": "Idioma da interface",
+    "lang_subtitle": "Idioma no que se mostrará a aplicación",
+    "saving": "Gardando…",
+    "session_title": "Sesión",
+    "session_desc": "Pechar sesión elimina o teu token local. O teu código de acceso segue sendo válido para volver entrar.",
+    "logout_btn": "🚪 Pechar sesión",
+    "logging_out": "Pechando sesión…",
+    "privacy": "A túa privacidade é a nosa prioridade. Non almacenamos ningún dato persoal — só o teu código de acceso te identifica."
+  }
+}

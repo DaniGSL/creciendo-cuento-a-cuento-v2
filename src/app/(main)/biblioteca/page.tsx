@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import type { Story, StoryGenre } from "@/types/database";
 import StoryCard from "@/components/story/StoryCard";
 import { GENRE_STYLES, GENRES } from "@/lib/utils/genre";
@@ -12,6 +13,7 @@ type StoryPreview = Pick<
 >;
 
 export default function BibliotecaPage() {
+  const t = useTranslations("library");
   const [stories, setStories] = useState<StoryPreview[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeGenre, setActiveGenre] = useState<StoryGenre | "Todos">("Todos");
@@ -40,12 +42,12 @@ export default function BibliotecaPage() {
       {/* Header */}
       <div className="mb-6">
         <h1 className="font-display italic text-3xl text-primary-dark mb-1">
-          Mi Biblioteca de Cuentos
+          {t("title")}
         </h1>
         <p className="text-text-secondary text-sm">
           {loading
-            ? "Cargando…"
-            : `${stories.length} cuento${stories.length !== 1 ? "s" : ""} creado${stories.length !== 1 ? "s" : ""}`}
+            ? t("loading")
+            : `${stories.length} ${t(stories.length !== 1 ? "stories_count_other" : "stories_count_one")}`}
         </p>
       </div>
 
@@ -61,7 +63,7 @@ export default function BibliotecaPage() {
             color: activeGenre === "Todos" ? "white" : "var(--color-text-secondary)",
           }}
         >
-          Todos
+          {t("filter_all")}
         </button>
         {GENRES.map((g) => {
           const style = GENRE_STYLES[g];
@@ -92,7 +94,7 @@ export default function BibliotecaPage() {
             color: onlyFavorites ? "#713F12" : "var(--color-text-secondary)",
           }}
         >
-          ⭐ Favoritos
+          {t("filter_favorites")}
         </button>
       </div>
 
@@ -111,24 +113,24 @@ export default function BibliotecaPage() {
         <div className="text-center py-20">
           <p className="text-5xl mb-4">📚</p>
           <h2 className="text-lg font-semibold text-text-primary mb-2">
-            Aún no hay cuentos
+            {t("no_stories_title")}
           </h2>
           <p className="text-text-secondary text-sm mb-6">
-            ¡Crea tu primera historia y aparecerá aquí!
+            {t("no_stories_subtitle")}
           </p>
           <Link
             href="/generar"
             className="inline-block px-6 py-3 rounded-full text-sm font-semibold text-white"
             style={{ background: "var(--color-primary-dark)" }}
           >
-            ✨ Crear cuento
+            {t("create_btn")}
           </Link>
         </div>
       ) : (
         <>
           {filtered.length === 0 && (
             <p className="text-center text-text-secondary py-10 text-sm">
-              No hay cuentos con estos filtros.
+              {t("no_filter")}
             </p>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -147,7 +149,7 @@ export default function BibliotecaPage() {
             >
               <span className="text-3xl">+</span>
               <span className="text-sm font-medium text-center">
-                Crear nueva historia
+                {t("new_story_card")}
               </span>
             </Link>
           </div>
