@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
                 type="text"
                 value={code}
                 onChange={handleInput}
-                placeholder="LUNA-SOL-NUBE-9743"
+                placeholder="XXXX-XXXX-XXXX-0000"
                 autoComplete="off"
                 autoCapitalize="characters"
                 spellCheck={false}
