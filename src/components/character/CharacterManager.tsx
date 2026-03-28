@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import type { Character, StoryCharacter } from "@/types/database";
 
 interface CharacterManagerProps {
@@ -12,6 +13,7 @@ export default function CharacterManager({
   selectedCharacters,
   onSelectionChange,
 }: CharacterManagerProps) {
+  const t = useTranslations("character_manager");
   const [saved, setSaved] = useState<Character[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
@@ -85,20 +87,20 @@ export default function CharacterManager({
     <div className="space-y-5">
       <div>
         <h2 className="text-lg font-semibold text-text-primary mb-1">
-          ¿Quiénes son los protagonistas?
+          {t("title")}
         </h2>
         <p className="text-sm text-text-secondary">
-          Selecciona personajes guardados o añade nuevos.
+          {t("subtitle")}
         </p>
       </div>
 
       {/* Saved characters */}
       {loading ? (
-        <div className="text-sm text-text-secondary">Cargando personajes...</div>
+        <div className="text-sm text-text-secondary">{t("loading")}</div>
       ) : saved.length > 0 ? (
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-            Mis personajes
+            {t("my_characters")}
           </p>
           <div className="flex flex-wrap gap-2">
             {saved.map((char) => {
@@ -130,14 +132,14 @@ export default function CharacterManager({
             type="text"
             value={newName}
             onChange={(e) => setNewName(e.target.value)}
-            placeholder="Nombre del personaje"
+            placeholder={t("name_placeholder")}
             className="w-full px-3 py-2 rounded-lg bg-white border border-black/8 text-sm text-text-primary focus:outline-none focus:border-primary transition-colors"
             maxLength={100}
           />
           <textarea
             value={newDesc}
             onChange={(e) => setNewDesc(e.target.value)}
-            placeholder="Descripción breve (quién es, cómo es, qué le gusta…)"
+            placeholder={t("desc_placeholder")}
             className="w-full px-3 py-2 rounded-lg bg-white border border-black/8 text-sm text-text-primary focus:outline-none focus:border-primary transition-colors resize-none"
             rows={3}
             maxLength={500}
@@ -149,7 +151,7 @@ export default function CharacterManager({
               onChange={(e) => setSaveForLater(e.target.checked)}
               className="rounded"
             />
-            Guardar para futuros cuentos
+            {t("save_for_later")}
           </label>
           <div className="flex gap-2">
             <button
@@ -159,14 +161,14 @@ export default function CharacterManager({
               className="flex-1 py-2 rounded-lg text-sm font-semibold text-white transition-opacity disabled:opacity-50"
               style={{ background: "var(--color-primary-dark)" }}
             >
-              {adding ? "Añadiendo..." : "Añadir a la historia"}
+              {adding ? t("adding") : t("add_to_story")}
             </button>
             <button
               type="button"
               onClick={() => { setShowForm(false); setNewName(""); setNewDesc(""); }}
               className="px-4 py-2 rounded-lg text-sm text-text-secondary bg-white border border-black/8"
             >
-              Cancelar
+              {t("cancel")}
             </button>
           </div>
         </div>
@@ -178,7 +180,7 @@ export default function CharacterManager({
           style={{ borderColor: "var(--color-primary)", color: "var(--color-primary-dark)" }}
         >
           <span className="text-lg leading-none">+</span>
-          Añadir personaje nuevo
+          {t("add_new")}
         </button>
       )}
 
@@ -186,7 +188,7 @@ export default function CharacterManager({
       {selectedCharacters.length > 0 && (
         <div>
           <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-            En esta historia ({selectedCharacters.length})
+            {t("in_story", { count: selectedCharacters.length })}
           </p>
           <ul className="space-y-2">
             {selectedCharacters.map((char) => (
@@ -206,7 +208,7 @@ export default function CharacterManager({
                   type="button"
                   onClick={() => removeSelected(char.id)}
                   className="text-text-secondary hover:text-danger flex-shrink-0 mt-0.5"
-                  aria-label="Quitar personaje"
+                  aria-label={t("remove_aria")}
                 >
                   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18 18 6M6 6l12 12" />

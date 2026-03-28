@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 import type { StoryCharacter, StoryGenre, StoryLanguage, ReadingLevel } from "@/types/database";
 import CharacterManager from "@/components/character/CharacterManager";
 import GenreCard from "./GenreCard";
@@ -18,12 +19,6 @@ interface FormState {
   readingTime: number;
 }
 
-const STEP_LABELS: Record<Step, string> = {
-  1: "LOS PERSONAJES",
-  2: "LA HISTORIA",
-  3: "¡LISTA PARA CREAR!",
-};
-
 const LANGUAGES: StoryLanguage[] = [
   "español", "catalán", "gallego", "inglés",
   "francés", "holandés", "alemán", "árabe", "urdu",
@@ -38,6 +33,7 @@ const TIME_OPTIONS = [5, 10, 15, 20];
 
 export default function StoryForm() {
   const router = useRouter();
+  const t = useTranslations("generate");
   const [step, setStep] = useState<Step>(1);
   const [form, setForm] = useState<FormState>({
     selectedCharacters: [],
@@ -83,8 +79,8 @@ export default function StoryForm() {
       {/* Progress */}
       <div className="mb-6">
         <div className="flex justify-between text-xs font-medium text-text-secondary mb-2">
-          <span>PASO {step} DE 3: {STEP_LABELS[step]}</span>
-          <span>{progress}% Completado</span>
+          <span>{t("step_indicator", { step })} {step === 1 ? t("step_1_label") : step === 2 ? t("step_2_label") : t("step_3_label")}</span>
+          <span>{progress}{t("completed")}</span>
         </div>
         <div className="h-2 bg-surface-low rounded-full overflow-hidden">
           <div
@@ -117,17 +113,17 @@ export default function StoryForm() {
           <div className="space-y-6">
             <div>
               <h2 className="text-lg font-semibold text-text-primary mb-1">
-                ¿Cómo será la historia?
+                {t("how_title")}
               </h2>
               <p className="text-sm text-text-secondary">
-                Personaliza el estilo y la complejidad del cuento.
+                {t("how_subtitle")}
               </p>
             </div>
 
             {/* Genre */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-                Género literario
+                {t("genre_label")}
               </p>
               <div className="grid grid-cols-4 gap-2">
                 {GENRES.map((g) => (
@@ -144,7 +140,7 @@ export default function StoryForm() {
             {/* Language */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-                Idioma del cuento
+                {t("language_label")}
               </p>
               <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((lang) => {
@@ -171,7 +167,7 @@ export default function StoryForm() {
             {/* Reading level */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-                Nivel de lectura
+                {t("level_label")}
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                 {READING_LEVELS.map((level) => {
@@ -204,7 +200,7 @@ export default function StoryForm() {
             {/* Reading time */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-                Duración del cuento
+                {t("duration_label")}
               </p>
               <div className="flex gap-2">
                 {TIME_OPTIONS.map((t) => {
@@ -236,10 +232,10 @@ export default function StoryForm() {
             <div className="text-center">
               <div className="text-4xl mb-3">✨</div>
               <h2 className="text-xl font-semibold text-text-primary mb-1">
-                ¡Todo listo!
+                {t("ready_title")}
               </h2>
               <p className="text-sm text-text-secondary">
-                Así será tu cuento personalizado:
+                {t("ready_subtitle")}
               </p>
             </div>
 
@@ -247,20 +243,20 @@ export default function StoryForm() {
             <div className="rounded-xl bg-surface-low p-4 space-y-3">
               <SummaryRow
                 emoji="👤"
-                label="Personajes"
+                label={t("summary_characters")}
                 value={form.selectedCharacters.map((c) => c.name).join(", ")}
               />
-              <SummaryRow emoji="📖" label="Género" value={form.genre ?? ""} />
-              <SummaryRow emoji="🌍" label="Idioma" value={form.language} />
+              <SummaryRow emoji="📖" label={t("summary_genre")} value={form.genre ?? ""} />
+              <SummaryRow emoji="🌍" label={t("summary_language")} value={form.language} />
               <SummaryRow
                 emoji="🎓"
-                label="Nivel"
+                label={t("summary_level")}
                 value={`${READING_LEVEL_CONFIG[form.readingLevel].label} (${READING_LEVEL_CONFIG[form.readingLevel].cefr})`}
               />
               <SummaryRow
                 emoji="⏱️"
-                label="Duración"
-                value={`~${form.readingTime} minutos`}
+                label={t("summary_duration")}
+                value={`~${form.readingTime} ${t("minutes")}`}
               />
             </div>
 
@@ -294,10 +290,10 @@ export default function StoryForm() {
                       d="M4 12a8 8 0 018-8v8H4z"
                     />
                   </svg>
-                  <span className="font-medium">Escribiendo tu cuento...</span>
+                  <span className="font-medium">{t("writing")}</span>
                 </div>
                 <p className="text-xs text-text-secondary mt-2">
-                  Esto puede tardar entre 10 y 30 segundos.
+                  {t("writing_wait")}
                 </p>
               </div>
             ) : (
@@ -310,7 +306,7 @@ export default function StoryForm() {
                   boxShadow: "0 8px 24px rgba(125, 167, 240, 0.4)",
                 }}
               >
-                ✨ Generar Cuento
+                {t("generate_btn")}
               </button>
             )}
           </div>
@@ -329,7 +325,7 @@ export default function StoryForm() {
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
-            Anterior
+            {t("prev_btn")}
           </button>
         ) : (
           <div />
@@ -343,7 +339,7 @@ export default function StoryForm() {
             className="flex items-center gap-1 px-5 py-2 rounded-xl text-sm font-semibold text-white transition-all disabled:opacity-40"
             style={{ background: "var(--color-primary-dark)" }}
           >
-            Siguiente
+            {t("next_btn")}
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>
