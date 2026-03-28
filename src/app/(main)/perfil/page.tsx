@@ -19,13 +19,13 @@ interface ProfileStats {
 // ─── Language options ─────────────────────────────────────────────────────────
 
 const LANG_OPTIONS = [
-  { value: "es", label: "🇪🇸 Español" },
-  { value: "ca", label: "🏴󠁥󠁳󠁣󠁴󠁿 Català" },
-  { value: "gl", label: "🏴 Galego" },
-  { value: "en", label: "🇬🇧 English" },
-  { value: "fr", label: "🇫🇷 Français" },
-  { value: "ar", label: "🇸🇦 العربية" },
-  { value: "ur", label: "🇵🇰 اردو" },
+  { value: "es", label: "Español" },
+  { value: "ca", label: "Català" },
+  { value: "gl", label: "Galego" },
+  { value: "en", label: "English" },
+  { value: "fr", label: "Français" },
+  { value: "ar", label: "العربية (árabe)" },
+  { value: "ur", label: "اردو (urdu)" },
 ];
 
 // ─── Stat Card ────────────────────────────────────────────────────────────────

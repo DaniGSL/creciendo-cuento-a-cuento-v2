@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
 
 const LANG_OPTIONS = [
-  { value: "es", flag: "🇪🇸", label: "Español" },
-  { value: "ca", flag: "🏴󠁥󠁳󠁣󠁴󠁿", label: "Català" },
-  { value: "gl", flag: "🏴", label: "Galego" },
-  { value: "en", flag: "🇬🇧", label: "English" },
-  { value: "fr", flag: "🇫🇷", label: "Français" },
-  { value: "ar", flag: "🇸🇦", label: "العربية" },
-  { value: "ur", flag: "🇵🇰", label: "اردو" },
+  { value: "es", label: "Español" },
+  { value: "ca", label: "Català" },
+  { value: "gl", label: "Galego" },
+  { value: "en", label: "English" },
+  { value: "fr", label: "Français" },
+  { value: "ar", label: "العربية (árabe)" },
+  { value: "ur", label: "اردو (urdu)" },
 ];
 
 export default function LangSelector() {
@@ -49,8 +49,7 @@ export default function LangSelector() {
         style={{ color: "var(--color-text-secondary)" }}
         aria-label="Cambiar idioma"
       >
-        <span className="text-base leading-none">{current.flag}</span>
-        <span className="hidden lg:inline font-medium text-xs">{current.label}</span>
+        <span className="font-medium text-xs">{current.label}</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="12"
@@ -90,7 +89,6 @@ export default function LangSelector() {
                       : "var(--color-text-primary)",
                 }}
               >
-                <span className="text-base leading-none">{opt.flag}</span>
                 <span>{opt.label}</span>
                 {opt.value === locale && (
                   <svg
