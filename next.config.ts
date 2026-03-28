@@ -1,15 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  serverExternalPackages: ["@anthropic-ai/sdk"],
-  webpack: (config) => {
-    // Allow pdfmake to load TTF font files
-    config.module.rules.push({
-      test: /\.ttf$/,
-      type: "asset/resource",
-    });
-    return config;
-  },
+  // pdfmake and html2canvas/jspdf are browser-only libs (used via dynamic import
+  // in DownloadPDFButton). Listing them here prevents Next.js from accidentally
+  // trying to bundle them for the server.
+  serverExternalPackages: ["@anthropic-ai/sdk", "pdfmake", "html2canvas"],
+  turbopack: {},
 };
 
 export default nextConfig;

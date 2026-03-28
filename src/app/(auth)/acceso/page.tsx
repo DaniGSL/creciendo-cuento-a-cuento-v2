@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 export default function AccesoPage() {
@@ -8,42 +8,13 @@ export default function AccesoPage() {
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  // Auto-format as user types: LUNA-GATO-AZUL-7834
+  // Limpia la entrada: solo letras (con tildes), dígitos y guiones; mayúsculas
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const raw = e.target.value
+    const value = e.target.value
       .toUpperCase()
-      .replace(/[^A-ZÁÉÍÓÚÑ0-9]/g, "");
-
-    let formatted = "";
-    let numCount = 0;
-    let letterGroups: string[] = ["", "", ""];
-    let groupIdx = 0;
-    let digits = "";
-
-    for (const char of raw) {
-      if (/\d/.test(char)) {
-        digits += char;
-        numCount++;
-        if (numCount > 4) break;
-      } else if (/[A-ZÁÉÍÓÚÑ]/.test(char)) {
-        if (digits.length > 0) break; // no letters after digits start
-        if (letterGroups[groupIdx].length >= 10) {
-          if (groupIdx < 2) groupIdx++;
-          else continue;
-        }
-        letterGroups[groupIdx] += char;
-      } else if (char === "-" || char === " ") {
-        if (groupIdx < 2 && letterGroups[groupIdx].length > 0) groupIdx++;
-      }
-    }
-
-    const parts = letterGroups.filter((g) => g.length > 0);
-    formatted = parts.join("-");
-    if (digits.length > 0) formatted += "-" + digits.slice(0, 4);
-
-    setCode(formatted);
+      .replace(/[^A-ZÁÉÍÓÚÑ0-9-]/g, "")
+      .slice(0, 22);
+    setCode(value);
     setError("");
   };
 
@@ -106,7 +77,6 @@ export default function AccesoPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <input
-                ref={inputRef}
                 type="text"
                 value={code}
                 onChange={handleInput}
