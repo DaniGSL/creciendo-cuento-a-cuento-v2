@@ -1,0 +1,80 @@
+{
+  "nav": {
+    "home": "الرئيسية",
+    "generate": "إنشاء",
+    "library": "المكتبة",
+    "characters": "الشخصيات",
+    "profile": "الملف الشخصي",
+    "create_aria": "إنشاء قصة"
+  },
+  "home": {
+    "hero_title": "مرحباً بكم في ملاذكم\nمن القصص!",
+    "hero_subtitle": "حوّل كل لحظة صغيرة إلى مغامرة سحرية. أنشئ قصصاً مخصصة لمرافقة نمو طفلك.",
+    "create_story": "إنشاء قصة",
+    "view_library": "عرض المكتبة",
+    "my_library": "مكتبتي",
+    "see_all": "← عرض الكل",
+    "no_stories_title": "لا توجد قصص بعد",
+    "no_stories_subtitle": "أنشئ قصتك الأولى الآن!",
+    "create_story_btn": "إنشاء قصة",
+    "new_story_btn": "+ إنشاء قصة جديدة",
+    "characters_section": "الشخصيات",
+    "characters_empty": "الشخصيات التي تنشئها ستُحفظ هنا.",
+    "create_new": "+ إنشاء قصة جديدة"
+  },
+  "access": {
+    "tagline": "ملاذك من القصص المخصصة",
+    "title": "أدخل رمز الوصول الخاص بك",
+    "subtitle": "زودك متخصصك برمز شخصي",
+    "placeholder": "LUNA-GATO-AZUL-7834",
+    "btn": "دخول",
+    "loading": "جارٍ الدخول...",
+    "no_code": "ليس لديك رمز؟ تواصل مع متخصصك.",
+    "code_personal": "رمزك شخصي — احتفظ به في مكان آمن.",
+    "privacy": "نحن لا نجمع بيانات شخصية. رمزك هو هويتك."
+  },
+  "library": {
+    "title": "مكتبة قصصي",
+    "loading": "جارٍ التحميل…",
+    "stories_count_one": "قصة منشأة",
+    "stories_count_other": "قصص منشأة",
+    "filter_all": "الكل",
+    "filter_favorites": "⭐ المفضلة فقط",
+    "no_stories_title": "لا توجد قصص بعد",
+    "no_stories_subtitle": "أنشئ قصتك الأولى وستظهر هنا!",
+    "create_btn": "✨ إنشاء قصة",
+    "new_story_card": "إنشاء قصة جديدة",
+    "no_filter": "لا توجد قصص تطابق هذه الفلاتر."
+  },
+  "characters": {
+    "title": "شخصياتي",
+    "add_btn": "إضافة شخصية",
+    "name_placeholder": "اسم الشخصية",
+    "desc_placeholder": "وصف مختصر (اختياري)",
+    "save_btn": "حفظ",
+    "cancel_btn": "إلغاء",
+    "edit_btn": "تعديل",
+    "delete_btn": "حذف",
+    "confirm_delete": "هل أنت متأكد؟",
+    "empty_title": "أنشئ شخصيتك الأولى",
+    "empty_subtitle": "عند توليد قصة"
+  },
+  "profile": {
+    "title": "ملفي الشخصي",
+    "member_since": "عضو منذ",
+    "stats_heading": "الإحصائيات",
+    "stories_created": "القصص المنشأة",
+    "characters_stat": "الشخصيات",
+    "reading_min": "دقائق القراءة",
+    "favorites": "المفضلة",
+    "avg_rating_prefix": "متوسط تقييم قصصك:",
+    "lang_title": "لغة الواجهة",
+    "lang_subtitle": "اللغة التي سيتم عرض التطبيق بها",
+    "saving": "جارٍ الحفظ…",
+    "session_title": "الجلسة",
+    "session_desc": "تسجيل الخروج يحذف رمزك المحلي. رمز الوصول الخاص بك يبقى صالحاً لإعادة الدخول.",
+    "logout_btn": "🚪 تسجيل الخروج",
+    "logging_out": "جارٍ تسجيل الخروج…",
+    "privacy": "خصوصيتك هي أولويتنا. لا نخزن أي بيانات شخصية — فقط رمز الوصول الخاص بك يعرّفك."
+  }
+}

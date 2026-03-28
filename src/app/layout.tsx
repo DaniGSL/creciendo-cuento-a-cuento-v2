@@ -30,10 +30,12 @@ export default async function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   const locale = await getLocale();
   const messages = await getMessages();
+  const dir = ["ar", "ur"].includes(locale) ? "rtl" : "ltr";
 
   return (
     <html
       lang={locale}
+      dir={dir}
       className={`${notoSerif.variable} ${plusJakarta.variable} h-full`}
     >
       <body className="min-h-full flex flex-col bg-neutral text-text-primary antialiased">
