@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { createServerClient } from "@/lib/supabase/server";
 import { requireAdmin } from "@/lib/auth/admin";
+import { hashCode } from "@/lib/auth/hash";
 
 type RouteContext = { params: Promise<{ code: string }> };
 
@@ -32,6 +33,16 @@ export async function PATCH(request: NextRequest, { params }: RouteContext) {
       .eq("code", code);
 
     if (error) throw error;
+
+    // If deactivating, revoke active sessions for profiles linked to this code
+    if (!parsed.data.is_active) {
+      const codeHash = hashCode(code);
+      await supabase
+        .from("profiles")
+        .update({ is_active: false })
+        .eq("code_hash", codeHash);
+    }
+
     return NextResponse.json({ success: true });
   } catch (e) {
     if (e instanceof Response) return e;
@@ -51,6 +62,14 @@ export async function DELETE(_request: NextRequest, { params }: RouteContext) {
     const { code } = await params;
 
     const supabase = createServerClient();
+
+    // Revoke sessions for profiles linked to this code before deleting
+    const codeHash = hashCode(code);
+    await supabase
+      .from("profiles")
+      .update({ is_active: false })
+      .eq("code_hash", codeHash);
+
     const { error } = await supabase
       .from("access_codes")
       .delete()

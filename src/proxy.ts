@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import {
   verifyToken,
+  verifyAdminToken,
   SESSION_COOKIE_NAME,
   ADMIN_COOKIE_NAME,
 } from "@/lib/auth/jwt";
@@ -24,9 +25,8 @@ export async function proxy(request: NextRequest) {
     }
 
     const adminCookie = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
-    const adminCode = process.env.ADMIN_SECRET_CODE;
 
-    if (!adminCookie || !adminCode || adminCookie !== adminCode) {
+    if (!adminCookie || !(await verifyAdminToken(adminCookie))) {
       // API routes → return JSON 401, not an HTML redirect
       if (pathname.startsWith("/api/")) {
         return NextResponse.json({ error: "No autorizado" }, { status: 401 });

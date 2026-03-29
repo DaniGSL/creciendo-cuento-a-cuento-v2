@@ -9,12 +9,17 @@ import type { Story } from "@/types/database";
 type Props = { params: Promise<{ id: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const session = await getSession();
+  if (!session) {
+    return { title: "Cuento · Creciendo Cuento a Cuento" };
+  }
   const { id } = await params;
   const supabase = createServerClient();
   const { data } = await supabase
     .from("stories")
     .select("title")
     .eq("id", id)
+    .eq("profile_id", session.profileId)
     .single();
   return {
     title: data?.title

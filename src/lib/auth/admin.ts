@@ -1,5 +1,5 @@
 import { cookies } from "next/headers";
-import { ADMIN_COOKIE_NAME } from "./jwt";
+import { ADMIN_COOKIE_NAME, verifyAdminToken } from "./jwt";
 
 /**
  * Verifies that the request has a valid admin cookie.
@@ -10,9 +10,8 @@ import { ADMIN_COOKIE_NAME } from "./jwt";
 export async function requireAdmin(): Promise<void> {
   const cookieStore = await cookies();
   const cookie = cookieStore.get(ADMIN_COOKIE_NAME)?.value;
-  const adminCode = process.env.ADMIN_SECRET_CODE;
 
-  if (!cookie || !adminCode || cookie !== adminCode) {
+  if (!cookie || !(await verifyAdminToken(cookie))) {
     throw new Response(JSON.stringify({ error: "No autorizado" }), {
       status: 401,
       headers: { "Content-Type": "application/json" },

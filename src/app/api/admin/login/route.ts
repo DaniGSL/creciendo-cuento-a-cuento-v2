@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import { ADMIN_COOKIE_NAME } from "@/lib/auth/jwt";
+import { ADMIN_COOKIE_NAME, signAdminToken } from "@/lib/auth/jwt";
 
 const LoginSchema = z.object({
   code: z.string().min(1).transform((v) => v.toUpperCase().trim()),
@@ -33,8 +33,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    const adminToken = await signAdminToken();
     const response = NextResponse.json({ success: true });
-    response.cookies.set(ADMIN_COOKIE_NAME, adminCode, {
+    response.cookies.set(ADMIN_COOKIE_NAME, adminToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: "lax",
