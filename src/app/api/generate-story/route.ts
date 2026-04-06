@@ -12,7 +12,7 @@ import {
   wordCountToReadingTime,
   countWords,
 } from "@/lib/utils/reading-level";
-import type { StoryCharacter } from "@/types/database";
+import type { StoryCharacter, StoryGenre } from "@/types/database";
 
 const StoryCharacterSchema = z.object({
   id: z.string().uuid().optional(),
@@ -22,16 +22,8 @@ const StoryCharacterSchema = z.object({
 
 const GenerateStorySchema = z.object({
   characters: z.array(StoryCharacterSchema).min(1).max(5),
-  genre: z.enum([
-    "Aventura",
-    "Fantasía",
-    "Animales",
-    "Espacio",
-    "Naturaleza",
-    "Cuento de Cuna",
-    "Amistad",
-    "Misterio",
-  ]),
+  genre: z.string().min(1).max(100).trim(),
+  location: z.string().min(1).max(200).trim().optional(),
   language: z.enum([
     "español",
     "catalán",
@@ -67,7 +59,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { characters, genre, language, readingLevel, readingTime } =
+    const { characters, genre, location, language, readingLevel, readingTime } =
       parsed.data;
 
     // Construir prompts
@@ -75,6 +67,7 @@ export async function POST(request: NextRequest) {
     const userPrompt = buildUserPrompt({
       characters: characters as StoryCharacter[],
       genre,
+      location,
       language,
       readingLevel,
       readingTime,
@@ -126,7 +119,7 @@ export async function POST(request: NextRequest) {
         profile_id: session.profileId,
         title,
         content,
-        genre,
+        genre: genre as StoryGenre,
         language,
         reading_level: readingLevel,
         reading_time: actualReadingTime,

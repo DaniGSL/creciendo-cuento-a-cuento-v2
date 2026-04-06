@@ -28,12 +28,14 @@ export type StoryLanguage =
 export type StoryGenre =
   | "Aventura"
   | "Fantasía"
-  | "Animales"
-  | "Espacio"
-  | "Naturaleza"
+  | "Cuento de hadas"
+  | "Fábula"
+  | "Misterio"
+  | "Leyenda"
+  | "Ciencia ficción"
+  | "Humor"
   | "Cuento de Cuna"
-  | "Amistad"
-  | "Misterio";
+  | "Otro";
 
 export interface AccessCode {
   code: string;

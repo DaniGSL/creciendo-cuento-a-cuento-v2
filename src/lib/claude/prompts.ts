@@ -1,6 +1,5 @@
 import type {
   StoryCharacter,
-  StoryGenre,
   StoryLanguage,
   ReadingLevel,
 } from "@/types/database";
@@ -21,7 +20,8 @@ REGLAS ABSOLUTAS:
 
 export interface BuildUserPromptParams {
   characters: StoryCharacter[];
-  genre: StoryGenre;
+  genre: string;
+  location?: string;
   language: StoryLanguage;
   readingLevel: ReadingLevel;
   readingTime: number; // minutos
@@ -32,6 +32,7 @@ const RTL_LANGUAGES: StoryLanguage[] = ["árabe", "urdu"];
 export function buildUserPrompt({
   characters,
   genre,
+  location,
   language,
   readingLevel,
   readingTime,
@@ -48,12 +49,14 @@ export function buildUserPrompt({
     ? `\nDIRECCIÓN DEL TEXTO: Este idioma se escribe de derecha a izquierda. Escribe el cuento íntegramente en ${language}, respetando la dirección natural del texto.`
     : "";
 
+  const locationLine = location ? `\nLUGAR: ${location}` : "";
+
   return `Escribe un cuento con las siguientes características:
 
 PERSONAJES:
 ${charactersText}
 
-GÉNERO: ${genre}
+GÉNERO: ${genre}${locationLine}
 
 IDIOMA: ${language}${rtlNote}
 

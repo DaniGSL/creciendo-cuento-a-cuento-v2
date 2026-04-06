@@ -72,8 +72,8 @@ export const READING_LEVEL_CONFIG: Record<ReadingLevel, ReadingLevelConfig> = {
   adulto: {
     wpm: 200,
     cefr: "C2",
-    label: "Adulto / Familia",
-    levelInstructions: `NIVEL DE LENGUAJE — Adulto / Familia (C2):
+    label: "Máxima complejidad",
+    levelInstructions: `NIVEL DE LENGUAJE — Máxima complejidad (C2):
 - Vocabulario rico y preciso: usa términos técnicos, palabras poco comunes y expresiones idiomáticas cuando enriquezcan el texto.
 - Frases con subordinadas, participios absolutos y construcciones complejas.
 - Narrador con voz literaria propia: puede usar ironía suave, metáforas elaboradas y recursos estilísticos como la personificación o la sinestesia.

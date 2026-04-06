@@ -7,6 +7,7 @@ import type { StoryCharacter, StoryGenre, StoryLanguage, ReadingLevel } from "@/
 import CharacterManager from "@/components/character/CharacterManager";
 import GenreCard from "./GenreCard";
 import { GENRES } from "@/lib/utils/genre";
+import { LOCATIONS } from "@/lib/utils/location";
 import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
 
 type Step = 1 | 2 | 3;
@@ -14,6 +15,9 @@ type Step = 1 | 2 | 3;
 interface FormState {
   selectedCharacters: StoryCharacter[];
   genre: StoryGenre | null;
+  genreCustom: string;
+  location: string | null;
+  locationCustom: string;
   language: StoryLanguage;
   readingLevel: ReadingLevel;
   readingTime: number;
@@ -38,6 +42,9 @@ export default function StoryForm() {
   const [form, setForm] = useState<FormState>({
     selectedCharacters: [],
     genre: null,
+    genreCustom: "",
+    location: null,
+    locationCustom: "",
     language: "español",
     readingLevel: "primaria_media",
     readingTime: 10,
@@ -48,7 +55,12 @@ export default function StoryForm() {
   const progress = step === 1 ? 33 : step === 2 ? 66 : 100;
 
   const canNext1 = form.selectedCharacters.length > 0;
-  const canNext2 = form.genre !== null;
+  const genreValid = form.genre !== null && (form.genre !== "Otro" || form.genreCustom.trim().length > 0);
+  const locationValid = form.location !== null && (form.location !== "Otro" || form.locationCustom.trim().length > 0);
+  const canNext2 = genreValid && locationValid;
+
+  const effectiveGenre = form.genre === "Otro" ? form.genreCustom.trim() : (form.genre ?? "");
+  const effectiveLocation = form.location === "Otro" ? form.locationCustom.trim() : (form.location ?? "");
 
   const handleGenerate = async () => {
     setIsGenerating(true);
@@ -59,7 +71,8 @@ export default function StoryForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           characters: form.selectedCharacters,
-          genre: form.genre,
+          genre: effectiveGenre,
+          location: effectiveLocation,
           language: form.language,
           readingLevel: form.readingLevel,
           readingTime: form.readingTime,
@@ -131,10 +144,60 @@ export default function StoryForm() {
                     key={g}
                     genre={g}
                     selected={form.genre === g}
-                    onClick={() => setForm((f) => ({ ...f, genre: g }))}
+                    onClick={() => setForm((f) => ({ ...f, genre: g, genreCustom: "" }))}
                   />
                 ))}
               </div>
+              {form.genre === "Otro" && (
+                <input
+                  type="text"
+                  value={form.genreCustom}
+                  onChange={(e) => setForm((f) => ({ ...f, genreCustom: e.target.value }))}
+                  placeholder={t("genre_other_placeholder")}
+                  maxLength={80}
+                  className="mt-3 w-full px-4 py-2.5 rounded-xl border-2 text-sm bg-surface-low text-text-primary placeholder:text-text-secondary outline-none transition-colors"
+                  style={{ borderColor: "var(--color-primary)" }}
+                />
+              )}
+            </div>
+
+            {/* Location */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
+                {t("location_label")}
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {LOCATIONS.map((loc) => {
+                  const active = form.location === loc.value;
+                  return (
+                    <button
+                      key={loc.value}
+                      type="button"
+                      onClick={() => setForm((f) => ({ ...f, location: loc.value, locationCustom: "" }))}
+                      className="flex flex-col items-center gap-1.5 p-3 rounded-2xl border-2 transition-all text-sm font-medium"
+                      style={{
+                        borderColor: active ? "var(--color-primary-dark)" : "transparent",
+                        background: active ? "var(--color-primary)/10" : "var(--color-surface-low)",
+                        color: active ? "var(--color-primary-dark)" : "var(--color-text-secondary)",
+                      }}
+                    >
+                      <span className="text-2xl leading-none">{loc.emoji}</span>
+                      <span className="text-center leading-tight text-xs">{loc.value}</span>
+                    </button>
+                  );
+                })}
+              </div>
+              {form.location === "Otro" && (
+                <input
+                  type="text"
+                  value={form.locationCustom}
+                  onChange={(e) => setForm((f) => ({ ...f, locationCustom: e.target.value }))}
+                  placeholder={t("location_other_placeholder")}
+                  maxLength={100}
+                  className="mt-3 w-full px-4 py-2.5 rounded-xl border-2 text-sm bg-surface-low text-text-primary placeholder:text-text-secondary outline-none transition-colors"
+                  style={{ borderColor: "var(--color-primary)" }}
+                />
+              )}
             </div>
 
             {/* Language */}
@@ -246,7 +309,8 @@ export default function StoryForm() {
                 label={t("summary_characters")}
                 value={form.selectedCharacters.map((c) => c.name).join(", ")}
               />
-              <SummaryRow emoji="📖" label={t("summary_genre")} value={form.genre ?? ""} />
+              <SummaryRow emoji="📖" label={t("summary_genre")} value={effectiveGenre} />
+              <SummaryRow emoji="📍" label={t("summary_location")} value={effectiveLocation} />
               <SummaryRow emoji="🌍" label={t("summary_language")} value={form.language} />
               <SummaryRow
                 emoji="🎓"
