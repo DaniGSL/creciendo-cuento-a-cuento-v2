@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Resend } from "resend";
 import { createServerClient } from "@/lib/supabase/server";
 import { requireSession } from "@/lib/auth/session";
+import { hashCode, decryptLabel } from "@/lib/auth/hash";
 
 const TO_EMAIL = process.env.PRINT_EMAIL ?? "creciendocuentoacuento@gmail.com";
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
@@ -12,6 +13,41 @@ const BodySchema = z.object({
 });
 
 type RouteContext = { params: Promise<{ id: string }> };
+
+/** Looks up the admin label for the profile that sent the request.
+ *  Iterates access_codes (service role, bypasses RLS) and finds the one
+ *  whose HMAC hash matches the profile's code_hash. Returns null if not found. */
+async function resolveProfileLabel(profileId: string): Promise<string | null> {
+  try {
+    const supabase = createServerClient();
+
+    // 1. Get the profile's code_hash
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("code_hash")
+      .eq("id", profileId)
+      .single();
+
+    if (!profile?.code_hash) return null;
+
+    // 2. Scan all access codes and find the one whose hash matches
+    const { data: codes } = await supabase
+      .from("access_codes")
+      .select("code, label");
+
+    if (!codes?.length) return null;
+
+    for (const row of codes) {
+      if (hashCode(row.code) === profile.code_hash) {
+        return row.label ? decryptLabel(row.label) : null;
+      }
+    }
+
+    return null;
+  } catch {
+    return null; // Never block the email send because of this
+  }
+}
 
 export async function POST(req: NextRequest, { params }: RouteContext) {
   try {
@@ -38,6 +74,9 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
       return NextResponse.json({ error: "Cuento no encontrado" }, { status: 404 });
     }
 
+    // Resolve admin label (e.g. "Familia García") — best effort, non-blocking
+    const familyLabel = await resolveProfileLabel(session.profileId);
+
     // Build character list for email body
     const characterNames = Array.isArray(story.characters)
       ? (story.characters as { name: string }[]).map((c) => c.name).join(", ")
@@ -48,16 +87,25 @@ export async function POST(req: NextRequest, { params }: RouteContext) {
     const { error: emailError } = await resend.emails.send({
       from: FROM_EMAIL,
       to: TO_EMAIL,
-      subject: `Cuento: ${story.title}`,
+      subject: familyLabel
+        ? `Cuento de ${familyLabel}: ${story.title}`
+        : `Cuento: ${story.title}`,
       html: `
         <div style="font-family:sans-serif;max-width:480px;margin:auto;color:#1F2937;">
-          <h2 style="color:#2d5b9f;">${story.title}</h2>
+          ${familyLabel
+            ? `<p style="font-size:13px;font-weight:600;color:#2d5b9f;margin:0 0 4px 0;">
+                 📋 ${familyLabel}
+               </p>`
+            : ""}
+          <h2 style="color:#1F2937;margin:0 0 16px 0;">${story.title}</h2>
           <table style="width:100%;border-collapse:collapse;font-size:14px;">
-            <tr><td style="padding:4px 0;color:#6B7280;">Género</td><td>${story.genre}</td></tr>
+            <tr><td style="padding:4px 0;color:#6B7280;width:90px;">Género</td><td>${story.genre}</td></tr>
             <tr><td style="padding:4px 0;color:#6B7280;">Idioma</td><td>${story.language}</td></tr>
             <tr><td style="padding:4px 0;color:#6B7280;">Nivel</td><td>${story.reading_level}</td></tr>
             <tr><td style="padding:4px 0;color:#6B7280;">Duración</td><td>${story.reading_time} min</td></tr>
-            ${characterNames ? `<tr><td style="padding:4px 0;color:#6B7280;">Personajes</td><td>${characterNames}</td></tr>` : ""}
+            ${characterNames
+              ? `<tr><td style="padding:4px 0;color:#6B7280;">Personajes</td><td>${characterNames}</td></tr>`
+              : ""}
           </table>
           <p style="margin-top:24px;font-size:12px;color:#9CA3AF;">
             Generado con <em>Creciendo Cuento a Cuento</em>
