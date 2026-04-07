@@ -6,6 +6,7 @@ import type { Story } from "@/types/database";
 import { getGenreStyle } from "@/lib/utils/genre";
 import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
 import DownloadPDFButton from "@/components/story/DownloadPDFButton";
+import SendEmailButton from "@/components/story/SendEmailButton";
 
 interface StoryReaderProps {
   story: Story;
@@ -118,6 +119,9 @@ export default function StoryReader({ story }: StoryReaderProps) {
 
           {/* Download PDF */}
           <DownloadPDFButton story={story} />
+
+          {/* Send PDF by email */}
+          <SendEmailButton story={story} />
 
           {/* Rating */}
           <div className="flex items-center gap-1 ml-auto">

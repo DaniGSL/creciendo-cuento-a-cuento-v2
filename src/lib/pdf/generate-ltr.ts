@@ -30,24 +30,25 @@ function buildParagraphs(content: string): object[] {
     }));
 }
 
-// ─── Main export ─────────────────────────────────────────────────────────────
+// ─── Shared setup ─────────────────────────────────────────────────────────────
 
-export async function generateLtrPdf(story: Story): Promise<void> {
-  // Dynamic imports — runs only in the browser
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function _initPdfMake(): Promise<any> {
   const pdfMakeModule = await import("pdfmake/build/pdfmake");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const pdfMake = (pdfMakeModule as any).default ?? pdfMakeModule;
-
   const pdfFonts = await import("pdfmake/build/vfs_fonts");
-  // In pdfmake v0.3.x, vfs_fonts exports a flat { 'Font.ttf': base64, ... } object
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const vfsData = (pdfFonts as any).default ?? pdfFonts;
   pdfMake.addVirtualFileSystem(vfsData);
+  return pdfMake;
+}
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function _buildDocDefinition(story: Story): any {
   const dateFormatted = formatDateEs(story.created_at);
   const paragraphs = buildParagraphs(story.content);
 
-  // ── Separator line helper ──────────────────────────────────────────────────
   const separator = {
     canvas: [
       {
@@ -59,9 +60,7 @@ export async function generateLtrPdf(story: Story): Promise<void> {
     ],
   };
 
-  // ── Document definition ───────────────────────────────────────────────────
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const docDefinition: any = {
+  return {
     pageSize: "A4",
     pageMargins: [50, 60, 50, 70],
 
@@ -92,13 +91,9 @@ export async function generateLtrPdf(story: Story): Promise<void> {
     }),
 
     content: [
-      // Title
       { text: story.title, fontSize: 26, bold: true, color: "#2d5b9f", lineHeight: 1.3, margin: [0, 0, 0, 20] },
-      // Separator
       { ...separator, margin: [0, 0, 0, 20] },
-      // Story content
       ...paragraphs,
-      // Branding note
       { text: "Generado con Creciendo Cuento a Cuento", fontSize: 8, color: "#9CA3AF", italics: true, alignment: "center", margin: [0, 36, 0, 0] },
     ],
 
@@ -106,9 +101,23 @@ export async function generateLtrPdf(story: Story): Promise<void> {
       font: "Roboto",
     },
   };
+}
 
-  const doc = pdfMake.createPdf(docDefinition);
-  // Sanitize filename
+// ─── Public exports ───────────────────────────────────────────────────────────
+
+/** Downloads the PDF directly in the browser. */
+export async function generateLtrPdf(story: Story): Promise<void> {
+  const pdfMake = await _initPdfMake();
+  const doc = pdfMake.createPdf(_buildDocDefinition(story));
   const filename = `${story.title.replace(/[/\\?%*:|"<>]/g, "-")}.pdf`;
   doc.download(filename);
+}
+
+/** Returns the PDF as a base64 string (no download). */
+export async function getLtrPdfBase64(story: Story): Promise<string> {
+  const pdfMake = await _initPdfMake();
+  const doc = pdfMake.createPdf(_buildDocDefinition(story));
+  return new Promise<string>((resolve) => {
+    doc.getBase64((base64: string) => resolve(base64));
+  });
 }

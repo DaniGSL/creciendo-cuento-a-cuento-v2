@@ -19,10 +19,10 @@ function escHtml(str: string): string {
     .replace(/"/g, "&quot;");
 }
 
-// ─── Main export ─────────────────────────────────────────────────────────────
+// ─── Shared builder ───────────────────────────────────────────────────────────
 
-export async function generateRtlPdf(story: Story): Promise<void> {
-  // ── Build HTML content ────────────────────────────────────────────────────
+/** Renders the story to a jsPDF instance (does not save or return base64). */
+async function _buildRtlPdf(story: Story) {
   const paragraphsHtml = story.content
     .split(/\n{2,}/)
     .map(
@@ -31,8 +31,6 @@ export async function generateRtlPdf(story: Story): Promise<void> {
     )
     .join("");
 
-  // ── Create hidden container ───────────────────────────────────────────────
-  // 794 px = A4 width at 96 dpi
   const container = document.createElement("div");
   Object.assign(container.style, {
     position: "fixed",
@@ -62,7 +60,6 @@ export async function generateRtlPdf(story: Story): Promise<void> {
   document.body.appendChild(container);
 
   try {
-    // ── Render to canvas ───────────────────────────────────────────────────
     const { default: html2canvas } = await import("html2canvas");
     const canvas = await html2canvas(container, {
       scale: 2,
@@ -71,7 +68,6 @@ export async function generateRtlPdf(story: Story): Promise<void> {
       backgroundColor: "#ffffff",
     });
 
-    // ── Convert to PDF ─────────────────────────────────────────────────────
     const { jsPDF } = await import("jspdf");
 
     const PAGE_WIDTH_MM = 210;
@@ -138,11 +134,26 @@ export async function generateRtlPdf(story: Story): Promise<void> {
       }
     }
 
-    const filename = `${story.title.replace(/[/\\?%*:|"<>]/g, "-")}.pdf`;
-    pdf.save(filename);
+    return pdf;
   } finally {
     if (container.parentNode) {
       document.body.removeChild(container);
     }
   }
+}
+
+// ─── Public exports ───────────────────────────────────────────────────────────
+
+/** Downloads the PDF directly in the browser. */
+export async function generateRtlPdf(story: Story): Promise<void> {
+  const pdf = await _buildRtlPdf(story);
+  const filename = `${story.title.replace(/[/\\?%*:|"<>]/g, "-")}.pdf`;
+  pdf.save(filename);
+}
+
+/** Returns the PDF as a base64 string (no download). */
+export async function getRtlPdfBase64(story: Story): Promise<string> {
+  const pdf = await _buildRtlPdf(story);
+  // output('datauristring') returns "data:application/pdf;base64,<data>"
+  return (pdf.output("datauristring") as string).split(",")[1];
 }
