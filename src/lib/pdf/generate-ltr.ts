@@ -117,7 +117,6 @@ export async function generateLtrPdf(story: Story): Promise<void> {
 export async function getLtrPdfBase64(story: Story): Promise<string> {
   const pdfMake = await _initPdfMake();
   const doc = pdfMake.createPdf(_buildDocDefinition(story));
-  return new Promise<string>((resolve) => {
-    doc.getBase64((base64: string) => resolve(base64));
-  });
+  // pdfmake v0.3.x: getBase64() is async and returns a Promise directly
+  return doc.getBase64();
 }
