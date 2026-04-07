@@ -22,6 +22,19 @@ export const GENRE_STYLES: Record<StoryGenre, GenreStyle> = {
 
 export const GENRES = Object.keys(GENRE_STYLES) as StoryGenre[];
 
+export const GENRE_KEY_MAP: Record<StoryGenre, string> = {
+  "Aventura":          "genre_aventura",
+  "Fantasía":          "genre_fantasia",
+  "Cuento de hadas":   "genre_cuento_hadas",
+  "Fábula":            "genre_fabula",
+  "Misterio":          "genre_misterio",
+  "Leyenda":           "genre_leyenda",
+  "Ciencia ficción":   "genre_ciencia_ficcion",
+  "Humor":             "genre_humor",
+  "Cuento de Cuna":    "genre_cuento_cuna",
+  "Otro":              "genre_otro",
+};
+
 export function getGenreStyle(genre: string): GenreStyle {
   return GENRE_STYLES[genre as StoryGenre] ?? GENRE_STYLES["Otro"];
 }

@@ -3,11 +3,12 @@ import { getGenreStyle } from "@/lib/utils/genre";
 
 interface GenreCardProps {
   genre: StoryGenre;
+  label: string;
   selected: boolean;
   onClick: () => void;
 }
 
-export default function GenreCard({ genre, selected, onClick }: GenreCardProps) {
+export default function GenreCard({ genre, label, selected, onClick }: GenreCardProps) {
   const style = getGenreStyle(genre);
 
   return (
@@ -22,7 +23,7 @@ export default function GenreCard({ genre, selected, onClick }: GenreCardProps) 
       }}
     >
       <span className="text-2xl leading-none">{style.emoji}</span>
-      <span className="text-center leading-tight">{genre}</span>
+      <span className="text-center leading-tight">{label}</span>
     </button>
   );
 }

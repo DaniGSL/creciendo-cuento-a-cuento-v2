@@ -6,7 +6,7 @@ import { useTranslations } from "next-intl";
 import type { StoryCharacter, StoryGenre, StoryLanguage, ReadingLevel } from "@/types/database";
 import CharacterManager from "@/components/character/CharacterManager";
 import GenreCard from "./GenreCard";
-import { GENRES } from "@/lib/utils/genre";
+import { GENRES, GENRE_KEY_MAP } from "@/lib/utils/genre";
 import { LOCATIONS } from "@/lib/utils/location";
 import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
 
@@ -28,10 +28,31 @@ const LANGUAGES: StoryLanguage[] = [
   "francés", "holandés", "alemán", "árabe", "urdu",
 ];
 
+const LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
+  "español":  "lang_espanol",
+  "catalán":  "lang_catalan",
+  "gallego":  "lang_gallego",
+  "inglés":   "lang_ingles",
+  "francés":  "lang_frances",
+  "holandés": "lang_holandes",
+  "alemán":   "lang_aleman",
+  "árabe":    "lang_arabe",
+  "urdu":     "lang_urdu",
+};
+
 const READING_LEVELS: ReadingLevel[] = [
   "infantil", "primaria_baja", "primaria_media",
   "primaria_alta", "secundaria", "adulto",
 ];
+
+const LEVEL_KEY_MAP: Record<ReadingLevel, string> = {
+  "infantil":      "level_infantil",
+  "primaria_baja": "level_primaria_baja",
+  "primaria_media":"level_primaria_media",
+  "primaria_alta": "level_primaria_alta",
+  "secundaria":    "level_secundaria",
+  "adulto":        "level_adulto",
+};
 
 const TIME_OPTIONS = [5, 10, 15, 20];
 
@@ -143,6 +164,7 @@ export default function StoryForm() {
                   <GenreCard
                     key={g}
                     genre={g}
+                    label={t(GENRE_KEY_MAP[g])}
                     selected={form.genre === g}
                     onClick={() => setForm((f) => ({ ...f, genre: g, genreCustom: "" }))}
                   />
@@ -182,7 +204,7 @@ export default function StoryForm() {
                       }}
                     >
                       <span className="text-2xl leading-none">{loc.emoji}</span>
-                      <span className="text-center leading-tight text-xs">{loc.value}</span>
+                      <span className="text-center leading-tight text-xs">{t(loc.key)}</span>
                     </button>
                   );
                 })}
@@ -220,7 +242,7 @@ export default function StoryForm() {
                         color: active ? "white" : "var(--color-text-secondary)",
                       }}
                     >
-                      {lang}
+                      {t(LANGUAGE_KEY_MAP[lang])}
                     </button>
                   );
                 })}
@@ -251,7 +273,7 @@ export default function StoryForm() {
                         className="text-sm font-semibold"
                         style={{ color: active ? "var(--color-primary-dark)" : "var(--color-text-primary)" }}
                       >
-                        {config.label}
+                        {t(LEVEL_KEY_MAP[level])}
                       </p>
                       <p className="text-xs text-text-secondary">{config.cefr}</p>
                     </button>
@@ -309,13 +331,21 @@ export default function StoryForm() {
                 label={t("summary_characters")}
                 value={form.selectedCharacters.map((c) => c.name).join(", ")}
               />
-              <SummaryRow emoji="📖" label={t("summary_genre")} value={effectiveGenre} />
-              <SummaryRow emoji="📍" label={t("summary_location")} value={effectiveLocation} />
-              <SummaryRow emoji="🌍" label={t("summary_language")} value={form.language} />
+              <SummaryRow
+                emoji="📖"
+                label={t("summary_genre")}
+                value={form.genre === "Otro" ? form.genreCustom.trim() : form.genre ? t(GENRE_KEY_MAP[form.genre]) : ""}
+              />
+              <SummaryRow
+                emoji="📍"
+                label={t("summary_location")}
+                value={form.location === "Otro" ? form.locationCustom.trim() : form.location ? t(LOCATIONS.find(l => l.value === form.location)!.key) : ""}
+              />
+              <SummaryRow emoji="🌍" label={t("summary_language")} value={t(LANGUAGE_KEY_MAP[form.language])} />
               <SummaryRow
                 emoji="🎓"
                 label={t("summary_level")}
-                value={`${READING_LEVEL_CONFIG[form.readingLevel].label} (${READING_LEVEL_CONFIG[form.readingLevel].cefr})`}
+                value={`${t(LEVEL_KEY_MAP[form.readingLevel])} (${READING_LEVEL_CONFIG[form.readingLevel].cefr})`}
               />
               <SummaryRow
                 emoji="⏱️"
