@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { Story } from "@/types/database";
-import { GENRE_STYLES } from "@/lib/utils/genre";
+import { getGenreStyle } from "@/lib/utils/genre";
 
 type StoryPreview = Pick<
   Story,
@@ -20,7 +20,7 @@ function formatDate(dateStr: string): string {
 }
 
 export default function StoryCard({ story }: StoryCardProps) {
-  const style = GENRE_STYLES[story.genre];
+  const style = getGenreStyle(story.genre);
   const excerpt = story.content.slice(0, 120).trim() + "…";
 
   return (

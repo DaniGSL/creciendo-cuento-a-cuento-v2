@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
 import { createServerClient } from "@/lib/supabase/server";
-import { GENRE_STYLES } from "@/lib/utils/genre";
+import { getGenreStyle } from "@/lib/utils/genre";
 import type { Story, Character } from "@/types/database";
 
 export default async function HomePage() {
@@ -132,7 +132,7 @@ export default async function HomePage() {
           ) : (
             <ul className="space-y-3">
               {stories.map((story) => {
-                const style = GENRE_STYLES[story.genre];
+                const style = getGenreStyle(story.genre);
                 return (
                   <li key={story.id}>
                     <Link

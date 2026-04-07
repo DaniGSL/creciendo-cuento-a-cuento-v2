@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { Story, StoryGenre } from "@/types/database";
 import StoryCard from "@/components/story/StoryCard";
-import { GENRE_STYLES, GENRES } from "@/lib/utils/genre";
+import { GENRE_STYLES, GENRES, getGenreStyle } from "@/lib/utils/genre";
 
 type StoryPreview = Pick<
   Story,

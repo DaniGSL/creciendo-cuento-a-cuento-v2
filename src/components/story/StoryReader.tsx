@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import type { Story } from "@/types/database";
-import { GENRE_STYLES } from "@/lib/utils/genre";
+import { getGenreStyle } from "@/lib/utils/genre";
 import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
 import DownloadPDFButton from "@/components/story/DownloadPDFButton";
 
@@ -17,7 +17,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
   const [savingFav, setSavingFav] = useState(false);
   const [savingRating, setSavingRating] = useState(false);
 
-  const genreStyle = GENRE_STYLES[story.genre];
+  const genreStyle = getGenreStyle(story.genre);
   const levelLabel = READING_LEVEL_CONFIG[story.reading_level].label;
   const levelCefr = READING_LEVEL_CONFIG[story.reading_level].cefr;
 

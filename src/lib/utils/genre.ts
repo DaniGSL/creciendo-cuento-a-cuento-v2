@@ -21,3 +21,7 @@ export const GENRE_STYLES: Record<StoryGenre, GenreStyle> = {
 };
 
 export const GENRES = Object.keys(GENRE_STYLES) as StoryGenre[];
+
+export function getGenreStyle(genre: string): GenreStyle {
+  return GENRE_STYLES[genre as StoryGenre] ?? GENRE_STYLES["Otro"];
+}

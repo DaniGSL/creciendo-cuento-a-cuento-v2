@@ -1,5 +1,5 @@
 import type { StoryGenre } from "@/types/database";
-import { GENRE_STYLES } from "@/lib/utils/genre";
+import { getGenreStyle } from "@/lib/utils/genre";
 
 interface GenreCardProps {
   genre: StoryGenre;
@@ -8,7 +8,7 @@ interface GenreCardProps {
 }
 
 export default function GenreCard({ genre, selected, onClick }: GenreCardProps) {
-  const style = GENRE_STYLES[genre];
+  const style = getGenreStyle(genre);
 
   return (
     <button
