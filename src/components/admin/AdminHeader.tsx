@@ -5,8 +5,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
 const NAV_ITEMS = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/codigos", label: "Códigos" },
+  { href: "/admin",            label: "Dashboard" },
+  { href: "/admin/codigos",    label: "Códigos" },
+  { href: "/admin/perfiles",   label: "Perfiles" },
+  { href: "/admin/biblioteca", label: "Biblioteca" },
 ];
 
 export default function AdminHeader() {
