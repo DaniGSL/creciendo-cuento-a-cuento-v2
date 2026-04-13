@@ -15,7 +15,7 @@ import {
 import type { StoryCharacter, StoryGenre } from "@/types/database";
 
 const StoryCharacterSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.string().optional(),
   name: z.string().min(1).max(100).trim(),
   description: z.string().min(1).max(500).trim(),
 });
