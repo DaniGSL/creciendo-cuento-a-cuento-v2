@@ -15,7 +15,7 @@ export default function AccesoPage() {
     const value = e.target.value
       .toUpperCase()
       .replace(/[^A-ZÁÉÍÓÚÑ0-9-]/g, "")
-      .slice(0, 22);
+      .slice(0, 50);
     setCode(value);
     setError("");
   };
@@ -88,7 +88,7 @@ export default function AccesoPage() {
                 autoComplete="off"
                 autoCapitalize="characters"
                 spellCheck={false}
-                maxLength={22}
+                maxLength={50}
                 disabled={loading}
               />
               {error && (

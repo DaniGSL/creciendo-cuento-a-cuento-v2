@@ -10,7 +10,7 @@ export default function AdminLoginPage() {
   const [loading, setLoading] = useState(false);
 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCode(e.target.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ0-9-]/g, "").slice(0, 22));
+    setCode(e.target.value.toUpperCase().replace(/[^A-ZÁÉÍÓÚÑ0-9-]/g, "").slice(0, 50));
     setError("");
   };
 
@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
                 autoComplete="off"
                 autoCapitalize="characters"
                 spellCheck={false}
-                maxLength={22}
+                maxLength={50}
                 disabled={loading}
                 className="w-full text-center font-mono tracking-widest text-sm px-4 py-3 rounded-xl border transition-colors focus:outline-none"
                 style={{
