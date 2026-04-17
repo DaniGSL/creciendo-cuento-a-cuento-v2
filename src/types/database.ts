@@ -20,6 +20,7 @@ export type StoryLanguage =
   | "gallego"
   | "inglés"
   | "francés"
+  | "portugués"
   | "holandés"
   | "alemán"
   | "árabe"

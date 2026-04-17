@@ -10,6 +10,7 @@ const LANG_OPTIONS = [
   { value: "gl", label: "Galego" },
   { value: "en", label: "English" },
   { value: "fr", label: "Français" },
+  { value: "pt", label: "Português" },
   { value: "ar", label: "العربية (árabe)" },
   { value: "ur", label: "اردو (urdu)" },
 ];

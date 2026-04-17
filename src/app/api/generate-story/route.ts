@@ -30,6 +30,7 @@ const GenerateStorySchema = z.object({
     "gallego",
     "inglés",
     "francés",
+    "portugués",
     "holandés",
     "alemán",
     "árabe",

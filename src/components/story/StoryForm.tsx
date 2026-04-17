@@ -25,19 +25,20 @@ interface FormState {
 
 const LANGUAGES: StoryLanguage[] = [
   "español", "catalán", "gallego", "inglés",
-  "francés", "holandés", "alemán", "árabe", "urdu",
+  "francés", "portugués", "holandés", "alemán", "árabe", "urdu",
 ];
 
 const LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
-  "español":  "lang_espanol",
-  "catalán":  "lang_catalan",
-  "gallego":  "lang_gallego",
-  "inglés":   "lang_ingles",
-  "francés":  "lang_frances",
-  "holandés": "lang_holandes",
-  "alemán":   "lang_aleman",
-  "árabe":    "lang_arabe",
-  "urdu":     "lang_urdu",
+  "español":   "lang_espanol",
+  "catalán":   "lang_catalan",
+  "gallego":   "lang_gallego",
+  "inglés":    "lang_ingles",
+  "francés":   "lang_frances",
+  "portugués": "lang_portugues",
+  "holandés":  "lang_holandes",
+  "alemán":    "lang_aleman",
+  "árabe":     "lang_arabe",
+  "urdu":      "lang_urdu",
 };
 
 const READING_LEVELS: ReadingLevel[] = [
