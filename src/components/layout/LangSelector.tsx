@@ -13,6 +13,7 @@ const LANG_OPTIONS = [
   { value: "pt", label: "Português" },
   { value: "ar", label: "العربية (árabe)" },
   { value: "ur", label: "اردو (urdu)" },
+  { value: "ru", label: "Русский (ruso)" },
 ];
 
 export default function LangSelector() {

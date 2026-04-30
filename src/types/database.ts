@@ -24,7 +24,8 @@ export type StoryLanguage =
   | "holandés"
   | "alemán"
   | "árabe"
-  | "urdu";
+  | "urdu"
+  | "ruso";
 
 export type StoryGenre =
   | "Aventura"

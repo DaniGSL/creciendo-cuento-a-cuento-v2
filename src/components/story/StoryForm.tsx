@@ -25,7 +25,7 @@ interface FormState {
 
 const LANGUAGES: StoryLanguage[] = [
   "español", "catalán", "gallego", "inglés",
-  "francés", "portugués", "holandés", "alemán", "árabe", "urdu",
+  "francés", "portugués", "holandés", "alemán", "árabe", "urdu", "ruso",
 ];
 
 const LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
@@ -39,6 +39,7 @@ const LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
   "alemán":    "lang_aleman",
   "árabe":     "lang_arabe",
   "urdu":      "lang_urdu",
+  "ruso":      "lang_ruso",
 };
 
 const READING_LEVELS: ReadingLevel[] = [
