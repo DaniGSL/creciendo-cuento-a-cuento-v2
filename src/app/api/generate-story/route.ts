@@ -35,6 +35,7 @@ const GenerateStorySchema = z.object({
     "alemán",
     "árabe",
     "urdu",
+    "ruso",
   ]),
   readingLevel: z.enum([
     "infantil",

@@ -1,7 +1,7 @@
 import { getRequestConfig } from "next-intl/server";
 import { cookies } from "next/headers";
 
-const VALID_LOCALES = ["es", "ca", "gl", "en", "fr", "pt", "ar", "ur"] as const;
+const VALID_LOCALES = ["es", "ca", "gl", "en", "fr", "pt", "ar", "ur", "ru"] as const;
 type Locale = (typeof VALID_LOCALES)[number];
 
 function isValidLocale(v: string): v is Locale {
@@ -22,6 +22,7 @@ export default getRequestConfig(async () => {
     pt: () => import("../../messages/pt.json"),
     ar: () => import("../../messages/ar.json"),
     ur: () => import("../../messages/ur.json"),
+    ru: () => import("../../messages/ru.json"),
   };
 
   const messages = (await messagesMap[locale]()).default;
