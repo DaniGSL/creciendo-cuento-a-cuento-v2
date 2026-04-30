@@ -8,7 +8,7 @@ import CharacterManager from "@/components/character/CharacterManager";
 import GenreCard from "./GenreCard";
 import { GENRES, GENRE_KEY_MAP } from "@/lib/utils/genre";
 import { LOCATIONS } from "@/lib/utils/location";
-import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
+import { READING_LEVEL_CONFIG, READING_LEVEL_KEY_MAP } from "@/lib/utils/reading-level";
 
 type Step = 1 | 2 | 3;
 
@@ -47,14 +47,7 @@ const READING_LEVELS: ReadingLevel[] = [
   "primaria_alta", "secundaria", "adulto",
 ];
 
-const LEVEL_KEY_MAP: Record<ReadingLevel, string> = {
-  "infantil":      "level_infantil",
-  "primaria_baja": "level_primaria_baja",
-  "primaria_media":"level_primaria_media",
-  "primaria_alta": "level_primaria_alta",
-  "secundaria":    "level_secundaria",
-  "adulto":        "level_adulto",
-};
+const LEVEL_KEY_MAP = READING_LEVEL_KEY_MAP;
 
 const TIME_OPTIONS = [5, 10, 15, 20];
 

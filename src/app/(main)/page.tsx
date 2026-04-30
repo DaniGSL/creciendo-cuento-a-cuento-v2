@@ -3,7 +3,7 @@ import Image from "next/image";
 import { getTranslations } from "next-intl/server";
 import { getSession } from "@/lib/auth/session";
 import { createServerClient } from "@/lib/supabase/server";
-import { getGenreStyle } from "@/lib/utils/genre";
+import { getGenreStyle, GENRE_KEY_MAP } from "@/lib/utils/genre";
 import type { Story, Character } from "@/types/database";
 
 export default async function HomePage() {
@@ -26,6 +26,7 @@ export default async function HomePage() {
   ]);
 
   const t = await getTranslations("home");
+  const tGen = await getTranslations("generate");
 
   const stories = (storiesResult.data ?? []) as Pick<
     Story,
@@ -85,7 +86,7 @@ export default async function HomePage() {
         <div className="hidden md:flex flex-shrink-0 items-center justify-center" style={{ width: 220, height: 220 }}>
           <Image
             src="/hero-magic.webp"
-            alt="Libro mágico de cuentos"
+            alt={t("hero_image_alt")}
             width={220}
             height={220}
             priority
@@ -157,7 +158,7 @@ export default async function HomePage() {
                         className="text-[10px] font-bold px-2 py-0.5 rounded-full flex-shrink-0"
                         style={{ background: style.badge, color: style.text }}
                       >
-                        {story.genre.toUpperCase()}
+                        {tGen(GENRE_KEY_MAP[story.genre]).toUpperCase()}
                       </span>
                     </Link>
                   </li>

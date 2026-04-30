@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import StoryForm from "@/components/story/StoryForm";
 
 export const metadata: Metadata = {
   title: "Crear Cuento · Creciendo Cuento a Cuento",
 };
 
-export default function GenerarPage() {
+export default async function GenerarPage() {
+  const t = await getTranslations("generate");
+
   return (
     <div>
       {/* Page header */}
@@ -18,11 +21,10 @@ export default function GenerarPage() {
           ✦
         </span>
         <h1 className="font-display italic text-3xl md:text-4xl text-primary-dark mb-2">
-          Crea una Nueva Historia
+          {t("page_title")}
         </h1>
         <p className="text-text-secondary text-sm md:text-base max-w-md mx-auto">
-          Cada gran aventura comienza con un primer detalle. Ayúdanos a
-          moldear el mundo de tu pequeño lector.
+          {t("page_subtitle")}
         </p>
       </div>
 

@@ -2,25 +2,50 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import type { Story } from "@/types/database";
-import { getGenreStyle } from "@/lib/utils/genre";
-import { READING_LEVEL_CONFIG } from "@/lib/utils/reading-level";
+import { useTranslations } from "next-intl";
+import type { Story, StoryLanguage } from "@/types/database";
+import { getGenreStyle, GENRE_KEY_MAP } from "@/lib/utils/genre";
+import { READING_LEVEL_KEY_MAP } from "@/lib/utils/reading-level";
 import DownloadPDFButton from "@/components/story/DownloadPDFButton";
 import SendEmailButton from "@/components/story/SendEmailButton";
+
+const STORY_LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
+  "español":   "lang_espanol",
+  "catalán":   "lang_catalan",
+  "gallego":   "lang_gallego",
+  "inglés":    "lang_ingles",
+  "francés":   "lang_frances",
+  "portugués": "lang_portugues",
+  "holandés":  "lang_holandes",
+  "alemán":    "lang_aleman",
+  "árabe":     "lang_arabe",
+  "urdu":      "lang_urdu",
+  "ruso":      "lang_ruso",
+};
 
 interface StoryReaderProps {
   story: Story;
 }
 
 export default function StoryReader({ story }: StoryReaderProps) {
+  const tStory = useTranslations("story");
+  const tGen = useTranslations("generate");
+
   const [isFavorite, setIsFavorite] = useState(story.is_favorite);
   const [rating, setRating] = useState<number | null>(story.rating);
   const [savingFav, setSavingFav] = useState(false);
   const [savingRating, setSavingRating] = useState(false);
 
   const genreStyle = getGenreStyle(story.genre);
-  const levelLabel = READING_LEVEL_CONFIG[story.reading_level].label;
-  const levelCefr = READING_LEVEL_CONFIG[story.reading_level].cefr;
+  const genreLabel = tGen(GENRE_KEY_MAP[story.genre] ?? "genre_otro");
+  const levelLabel = tGen(READING_LEVEL_KEY_MAP[story.reading_level]);
+  const levelCefr = story.reading_level === "infantil" ? "A1"
+    : story.reading_level === "primaria_baja" ? "A2"
+    : story.reading_level === "primaria_media" ? "B1"
+    : story.reading_level === "primaria_alta" ? "B2"
+    : story.reading_level === "secundaria" ? "C1"
+    : "C2";
+  const languageLabel = tGen(STORY_LANGUAGE_KEY_MAP[story.language as StoryLanguage] ?? "lang_espanol");
 
   const isRtl = ["árabe", "urdu"].includes(story.language);
 
@@ -65,7 +90,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
         </svg>
-        Volver a mis cuentos
+        {tStory("back")}
       </Link>
 
       {/* Card */}
@@ -82,9 +107,9 @@ export default function StoryReader({ story }: StoryReaderProps) {
             className="text-xs font-bold px-2.5 py-1 rounded-full"
             style={{ background: genreStyle.badge, color: genreStyle.text }}
           >
-            {story.genre.toUpperCase()}
+            {genreLabel.toUpperCase()}
           </span>
-          <span className="text-xs text-text-secondary">{story.language}</span>
+          <span className="text-xs text-text-secondary">{languageLabel}</span>
           <span className="text-xs text-text-secondary">·</span>
           <span className="text-xs text-text-secondary">{story.reading_time} min</span>
           <span className="text-xs text-text-secondary">·</span>
@@ -109,12 +134,12 @@ export default function StoryReader({ story }: StoryReaderProps) {
             disabled={savingFav}
             className="flex items-center gap-1.5 text-sm transition-colors disabled:opacity-50"
             style={{ color: isFavorite ? "#F24949" : "var(--color-text-secondary)" }}
-            aria-label={isFavorite ? "Quitar de favoritos" : "Añadir a favoritos"}
+            aria-label={isFavorite ? tStory("remove_favorite") : tStory("add_favorite")}
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill={isFavorite ? "currentColor" : "none"} stroke="currentColor" strokeWidth={2}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" />
             </svg>
-            {isFavorite ? "Favorito" : "Añadir a favoritos"}
+            {isFavorite ? tStory("favorite") : tStory("add_favorite")}
           </button>
 
           {/* Download PDF */}
@@ -132,7 +157,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
                 onClick={() => handleRating(star)}
                 disabled={savingRating}
                 className="transition-transform active:scale-110 disabled:opacity-50"
-                aria-label={`Valorar con ${star} estrella${star > 1 ? "s" : ""}`}
+                aria-label={`${star} ★`}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -170,7 +195,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
           <div className="px-6 pb-6">
             <hr className="border-black/5 mb-4" />
             <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
-              Personajes del cuento
+              {tStory("characters_label")}
             </p>
             <div className="flex flex-wrap gap-2">
               {story.characters.map((char) => (
@@ -200,7 +225,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
             background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
           }}
         >
-          ✨ Crear otro cuento
+          {tStory("create_another")}
         </Link>
       </div>
     </div>

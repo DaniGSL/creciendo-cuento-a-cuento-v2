@@ -20,7 +20,8 @@
     "new_story_btn": "+ Crear nova historia",
     "characters_section": "Personaxes",
     "characters_empty": "Os personaxes que crees gardaranse aquí.",
-    "create_new": "+ Crear nova historia"
+    "create_new": "+ Crear nova historia",
+    "hero_image_alt": "Libro máxico de contos"
   },
   "access": {
     "tagline": "O voso refuxio de historias personalizadas",
@@ -93,6 +94,8 @@
     "remove_aria": "Quitar personaxe"
   },
   "generate": {
+    "page_title": "Crea unha Nova Historia",
+    "page_subtitle": "Cada gran aventura comeza cun primeiro detalle. Axúdanos a moldear o mundo do teu pequeno lector.",
     "step_indicator": "PASO {step} DE 3:",
     "step_1_label": "OS PERSONAXES",
     "step_2_label": "A HISTORIA",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "Primaria Alta",
     "level_secundaria": "Secundaria",
     "level_adulto": "Máxima complexidade"
+  },
+  "story": {
+    "back": "Volver aos meus contos",
+    "favorite": "Favorito",
+    "add_favorite": "Engadir aos favoritos",
+    "remove_favorite": "Quitar dos favoritos",
+    "characters_label": "Personaxes do conto",
+    "create_another": "✨ Crear outro conto",
+    "download_pdf": "Descargar PDF",
+    "download_pdf_aria": "Descargar o conto como PDF",
+    "generating_pdf": "Xerando PDF…",
+    "pdf_error": "Non se puido xerar o PDF. Inténtao de novo.",
+    "send_email": "Enviar PDF",
+    "send_email_aria": "Enviar o conto por correo",
+    "sending": "Enviando…",
+    "sent": "Enviado!",
+    "send_error": "Erro ao enviar"
   }
 }

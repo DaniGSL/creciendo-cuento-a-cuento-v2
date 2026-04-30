@@ -20,7 +20,8 @@
     "new_story_btn": "+ Create new story",
     "characters_section": "Characters",
     "characters_empty": "Characters you create will be saved here.",
-    "create_new": "+ Create new story"
+    "create_new": "+ Create new story",
+    "hero_image_alt": "Magical storybook"
   },
   "access": {
     "tagline": "Your personalized stories sanctuary",
@@ -93,6 +94,8 @@
     "remove_aria": "Remove character"
   },
   "generate": {
+    "page_title": "Create a New Story",
+    "page_subtitle": "Every great adventure begins with a first detail. Help us shape the world of your little reader.",
     "step_indicator": "STEP {step} OF 3:",
     "step_1_label": "THE CHARACTERS",
     "step_2_label": "THE STORY",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "Upper Primary",
     "level_secundaria": "Secondary",
     "level_adulto": "Max complexity"
+  },
+  "story": {
+    "back": "Back to my stories",
+    "favorite": "Favorite",
+    "add_favorite": "Add to favorites",
+    "remove_favorite": "Remove from favorites",
+    "characters_label": "Story characters",
+    "create_another": "✨ Create another story",
+    "download_pdf": "Download PDF",
+    "download_pdf_aria": "Download story as PDF",
+    "generating_pdf": "Generating PDF…",
+    "pdf_error": "Could not generate the PDF. Please try again.",
+    "send_email": "Send PDF",
+    "send_email_aria": "Send story by email",
+    "sending": "Sending…",
+    "sent": "Sent!",
+    "send_error": "Error sending"
   }
 }

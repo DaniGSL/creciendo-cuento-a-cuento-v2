@@ -20,7 +20,8 @@
     "new_story_btn": "+ Criar nova história",
     "characters_section": "Personagens",
     "characters_empty": "Os personagens que criar serão guardados aqui.",
-    "create_new": "+ Criar nova história"
+    "create_new": "+ Criar nova história",
+    "hero_image_alt": "Livro mágico de histórias"
   },
   "access": {
     "tagline": "O seu refúgio de histórias personalizadas",
@@ -93,6 +94,8 @@
     "remove_aria": "Remover personagem"
   },
   "generate": {
+    "page_title": "Crie uma Nova História",
+    "page_subtitle": "Cada grande aventura começa com um primeiro detalhe. Ajude-nos a moldar o mundo do seu pequeno leitor.",
     "step_indicator": "PASSO {step} DE 3:",
     "step_1_label": "OS PERSONAGENS",
     "step_2_label": "A HISTÓRIA",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "Primário Alto",
     "level_secundaria": "Secundário",
     "level_adulto": "Complexidade máxima"
+  },
+  "story": {
+    "back": "Voltar às minhas histórias",
+    "favorite": "Favorito",
+    "add_favorite": "Adicionar aos favoritos",
+    "remove_favorite": "Remover dos favoritos",
+    "characters_label": "Personagens da história",
+    "create_another": "✨ Criar outra história",
+    "download_pdf": "Descarregar PDF",
+    "download_pdf_aria": "Descarregar história como PDF",
+    "generating_pdf": "A gerar PDF…",
+    "pdf_error": "Não foi possível gerar o PDF. Tente novamente.",
+    "send_email": "Enviar PDF",
+    "send_email_aria": "Enviar história por email",
+    "sending": "A enviar…",
+    "sent": "Enviado!",
+    "send_error": "Erro ao enviar"
   }
 }

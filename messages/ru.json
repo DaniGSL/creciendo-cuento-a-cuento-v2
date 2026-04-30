@@ -20,7 +20,8 @@
     "new_story_btn": "+ Создать новую сказку",
     "characters_section": "Персонажи",
     "characters_empty": "Созданные вами персонажи будут сохранены здесь.",
-    "create_new": "+ Создать новую сказку"
+    "create_new": "+ Создать новую сказку",
+    "hero_image_alt": "Волшебная книга сказок"
   },
   "access": {
     "tagline": "Ваш уголок персонализированных историй",
@@ -93,6 +94,8 @@
     "remove_aria": "Убрать персонажа"
   },
   "generate": {
+    "page_title": "Создайте новую сказку",
+    "page_subtitle": "Каждое большое приключение начинается с первой детали. Помогите нам создать мир вашего маленького читателя.",
     "step_indicator": "ШАГ {step} ИЗ 3:",
     "step_1_label": "ПЕРСОНАЖИ",
     "step_2_label": "ИСТОРИЯ",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "Начальная (ст.)",
     "level_secundaria": "Средняя школа",
     "level_adulto": "Максимальная сложность"
+  },
+  "story": {
+    "back": "Назад к моим сказкам",
+    "favorite": "Избранное",
+    "add_favorite": "Добавить в избранное",
+    "remove_favorite": "Убрать из избранного",
+    "characters_label": "Персонажи сказки",
+    "create_another": "✨ Создать ещё одну сказку",
+    "download_pdf": "Скачать PDF",
+    "download_pdf_aria": "Скачать сказку в PDF",
+    "generating_pdf": "Создание PDF…",
+    "pdf_error": "Не удалось создать PDF. Попробуйте ещё раз.",
+    "send_email": "Отправить PDF",
+    "send_email_aria": "Отправить сказку по email",
+    "sending": "Отправка…",
+    "sent": "Отправлено!",
+    "send_error": "Ошибка отправки"
   }
 }

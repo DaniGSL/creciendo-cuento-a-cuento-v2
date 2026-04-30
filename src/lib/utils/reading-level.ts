@@ -83,6 +83,15 @@ export const READING_LEVEL_CONFIG: Record<ReadingLevel, ReadingLevelConfig> = {
   },
 };
 
+export const READING_LEVEL_KEY_MAP: Record<ReadingLevel, string> = {
+  "infantil":       "level_infantil",
+  "primaria_baja":  "level_primaria_baja",
+  "primaria_media": "level_primaria_media",
+  "primaria_alta":  "level_primaria_alta",
+  "secundaria":     "level_secundaria",
+  "adulto":         "level_adulto",
+};
+
 /** Calcula el número de palabras objetivo según nivel y minutos deseados. */
 export function readingTimeToWordCount(
   level: ReadingLevel,

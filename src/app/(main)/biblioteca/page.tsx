@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import type { Story, StoryGenre } from "@/types/database";
 import StoryCard from "@/components/story/StoryCard";
-import { GENRE_STYLES, GENRES, getGenreStyle } from "@/lib/utils/genre";
+import { GENRE_STYLES, GENRES, GENRE_KEY_MAP, getGenreStyle } from "@/lib/utils/genre";
 
 type StoryPreview = Pick<
   Story,
@@ -14,6 +14,7 @@ type StoryPreview = Pick<
 
 export default function BibliotecaPage() {
   const t = useTranslations("library");
+  const tGen = useTranslations("generate");
   const [stories, setStories] = useState<StoryPreview[]>([]);
   const [loading, setLoading] = useState(true);
   const [activeGenre, setActiveGenre] = useState<StoryGenre | "Todos">("Todos");
@@ -79,7 +80,7 @@ export default function BibliotecaPage() {
                 color: active ? style.text : "var(--color-text-secondary)",
               }}
             >
-              {style.emoji} {g}
+              {style.emoji} {tGen(GENRE_KEY_MAP[g])}
             </button>
           );
         })}

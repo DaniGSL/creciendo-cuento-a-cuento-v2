@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import type { Story } from "@/types/database";
 
 interface Props {
@@ -8,6 +9,7 @@ interface Props {
 }
 
 export default function DownloadPDFButton({ story }: Props) {
+  const t = useTranslations("story");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -26,7 +28,7 @@ export default function DownloadPDFButton({ story }: Props) {
       }
     } catch (e) {
       console.error("PDF generation error:", e);
-      setError("No se pudo generar el PDF. Inténtalo de nuevo.");
+      setError(t("pdf_error"));
     } finally {
       setLoading(false);
     }
@@ -38,7 +40,7 @@ export default function DownloadPDFButton({ story }: Props) {
         type="button"
         onClick={handleDownload}
         disabled={loading}
-        aria-label="Descargar cuento como PDF"
+        aria-label={t("download_pdf_aria")}
         className="flex items-center gap-1.5 text-sm transition-colors disabled:opacity-50"
         style={{ color: "var(--color-text-secondary)" }}
       >
@@ -64,11 +66,10 @@ export default function DownloadPDFButton({ story }: Props) {
                 d="M4 12a8 8 0 018-8v8H4z"
               />
             </svg>
-            Generando PDF…
+            {t("generating_pdf")}
           </>
         ) : (
           <>
-            {/* Download icon */}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -85,7 +86,7 @@ export default function DownloadPDFButton({ story }: Props) {
                 d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3"
               />
             </svg>
-            Descargar PDF
+            {t("download_pdf")}
           </>
         )}
       </button>

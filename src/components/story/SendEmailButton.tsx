@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import type { Story } from "@/types/database";
 
 type State = "idle" | "generating" | "sending" | "done" | "error";
@@ -10,16 +11,15 @@ interface Props {
 }
 
 export default function SendEmailButton({ story }: Props) {
+  const t = useTranslations("story");
   const [state, setState] = useState<State>("idle");
 
   const handleSend = async () => {
     setState("generating");
     try {
-      // 1. Generate PDF in the browser and get base64
       const { getPdfBase64 } = await import("@/lib/pdf/get-pdf-base64");
       const pdfBase64 = await getPdfBase64(story);
 
-      // 2. Send base64 to server → server emails it via Resend
       setState("sending");
       const res = await fetch(`/api/stories/${story.id}/send-pdf`, {
         method: "POST",
@@ -49,7 +49,7 @@ export default function SendEmailButton({ story }: Props) {
         type="button"
         onClick={handleSend}
         disabled={isBusy || state === "done"}
-        aria-label="Enviar cuento por email"
+        aria-label={t("send_email_aria")}
         className="flex items-center gap-1.5 text-sm transition-colors disabled:opacity-50"
         style={{
           color:
@@ -117,14 +117,14 @@ export default function SendEmailButton({ story }: Props) {
         {/* Label */}
         <span>
           {state === "generating"
-            ? "Generando PDF…"
+            ? t("generating_pdf")
             : state === "sending"
-            ? "Enviando…"
+            ? t("sending")
             : state === "done"
-            ? "¡Enviado!"
+            ? t("sent")
             : state === "error"
-            ? "Error al enviar"
-            : "Enviar PDF"}
+            ? t("send_error")
+            : t("send_email")}
         </span>
       </button>
     </div>

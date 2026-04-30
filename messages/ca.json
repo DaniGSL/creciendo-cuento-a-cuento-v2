@@ -20,7 +20,8 @@
     "new_story_btn": "+ Crear nova història",
     "characters_section": "Personatges",
     "characters_empty": "Els personatges que creïs es guardaran aquí.",
-    "create_new": "+ Crear nova història"
+    "create_new": "+ Crear nova història",
+    "hero_image_alt": "Llibre màgic de contes"
   },
   "access": {
     "tagline": "El vostre refugi d'històries personalitzades",
@@ -93,6 +94,8 @@
     "remove_aria": "Treure personatge"
   },
   "generate": {
+    "page_title": "Crea una Nova Història",
+    "page_subtitle": "Cada gran aventura comença amb un primer detall. Ajuda'ns a donar forma al món del teu petit lector.",
     "step_indicator": "PAS {step} DE 3:",
     "step_1_label": "ELS PERSONATGES",
     "step_2_label": "LA HISTÒRIA",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "Primària Alta",
     "level_secundaria": "Secundària",
     "level_adulto": "Complexitat màxima"
+  },
+  "story": {
+    "back": "Tornar als meus contes",
+    "favorite": "Preferit",
+    "add_favorite": "Afegir als preferits",
+    "remove_favorite": "Treure dels preferits",
+    "characters_label": "Personatges del conte",
+    "create_another": "✨ Crear un altre conte",
+    "download_pdf": "Descarregar PDF",
+    "download_pdf_aria": "Descarregar el conte com a PDF",
+    "generating_pdf": "Generant PDF…",
+    "pdf_error": "No s'ha pogut generar el PDF. Torna-ho a provar.",
+    "send_email": "Enviar PDF",
+    "send_email_aria": "Enviar el conte per correu",
+    "sending": "Enviant…",
+    "sent": "Enviat!",
+    "send_error": "Error en enviar"
   }
 }

@@ -20,7 +20,8 @@
     "new_story_btn": "+ إنشاء قصة جديدة",
     "characters_section": "الشخصيات",
     "characters_empty": "الشخصيات التي تنشئها ستُحفظ هنا.",
-    "create_new": "+ إنشاء قصة جديدة"
+    "create_new": "+ إنشاء قصة جديدة",
+    "hero_image_alt": "كتاب قصص سحري"
   },
   "access": {
     "tagline": "ملاذك من القصص المخصصة",
@@ -93,6 +94,8 @@
     "remove_aria": "إزالة الشخصية"
   },
   "generate": {
+    "page_title": "أنشئ قصة جديدة",
+    "page_subtitle": "كل مغامرة كبرى تبدأ بتفصيلة صغيرة. ساعدنا في تشكيل عالم قارئك الصغير.",
     "step_indicator": "الخطوة {step} من 3:",
     "step_1_label": "الشخصيات",
     "step_2_label": "القصة",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "ابتدائي مرتفع",
     "level_secundaria": "ثانوي",
     "level_adulto": "أقصى تعقيد"
+  },
+  "story": {
+    "back": "العودة إلى قصصي",
+    "favorite": "مفضلة",
+    "add_favorite": "إضافة إلى المفضلة",
+    "remove_favorite": "إزالة من المفضلة",
+    "characters_label": "شخصيات القصة",
+    "create_another": "✨ إنشاء قصة أخرى",
+    "download_pdf": "تنزيل PDF",
+    "download_pdf_aria": "تنزيل القصة كـ PDF",
+    "generating_pdf": "جارٍ إنشاء PDF…",
+    "pdf_error": "تعذّر إنشاء PDF. حاول مرة أخرى.",
+    "send_email": "إرسال PDF",
+    "send_email_aria": "إرسال القصة بالبريد الإلكتروني",
+    "sending": "جارٍ الإرسال…",
+    "sent": "تم الإرسال!",
+    "send_error": "خطأ في الإرسال"
   }
 }

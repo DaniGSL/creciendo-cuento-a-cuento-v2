@@ -20,7 +20,8 @@
     "new_story_btn": "+ نئی کہانی بنائیں",
     "characters_section": "کردار",
     "characters_empty": "آپ کے بنائے کردار یہاں محفوظ ہوں گے۔",
-    "create_new": "+ نئی کہانی بنائیں"
+    "create_new": "+ نئی کہانی بنائیں",
+    "hero_image_alt": "جادوئی کہانیوں کی کتاب"
   },
   "access": {
     "tagline": "ذاتی کہانیوں کی آپ کی پناہ گاہ",
@@ -93,6 +94,8 @@
     "remove_aria": "کردار ہٹائیں"
   },
   "generate": {
+    "page_title": "ایک نئی کہانی بنائیں",
+    "page_subtitle": "ہر بڑی مہم جوئی پہلی تفصیل سے شروع ہوتی ہے۔ ہمیں اپنے چھوٹے قاری کی دنیا بنانے میں مدد کریں۔",
     "step_indicator": "مرحلہ {step} از 3:",
     "step_1_label": "کردار",
     "step_2_label": "کہانی",
@@ -157,5 +160,22 @@
     "level_primaria_alta": "ابتدائی اعلیٰ",
     "level_secundaria": "ثانوی",
     "level_adulto": "زیادہ پیچیدگی"
+  },
+  "story": {
+    "back": "میری کہانیوں پر واپس",
+    "favorite": "پسندیدہ",
+    "add_favorite": "پسندیدہ میں شامل کریں",
+    "remove_favorite": "پسندیدہ سے ہٹائیں",
+    "characters_label": "کہانی کے کردار",
+    "create_another": "✨ ایک اور کہانی بنائیں",
+    "download_pdf": "PDF ڈاؤن لوڈ کریں",
+    "download_pdf_aria": "کہانی PDF میں ڈاؤن لوڈ کریں",
+    "generating_pdf": "PDF بنایا جا رہا ہے…",
+    "pdf_error": "PDF نہیں بن سکا۔ دوبارہ کوشش کریں۔",
+    "send_email": "PDF بھیجیں",
+    "send_email_aria": "کہانی ای میل سے بھیجیں",
+    "sending": "بھیجا جا رہا ہے…",
+    "sent": "بھیج دیا!",
+    "send_error": "بھیجنے میں خطأ"
   }
 }

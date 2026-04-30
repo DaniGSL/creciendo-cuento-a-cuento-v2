@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
+import { useLocale, useTranslations } from "next-intl";
 import type { Story } from "@/types/database";
-import { getGenreStyle } from "@/lib/utils/genre";
+import { getGenreStyle, GENRE_KEY_MAP } from "@/lib/utils/genre";
 
 type StoryPreview = Pick<
   Story,
@@ -11,17 +14,19 @@ interface StoryCardProps {
   story: StoryPreview;
 }
 
-function formatDate(dateStr: string): string {
-  return new Intl.DateTimeFormat("es-ES", {
+export default function StoryCard({ story }: StoryCardProps) {
+  const locale = useLocale();
+  const tGen = useTranslations("generate");
+  const tStory = useTranslations("story");
+
+  const style = getGenreStyle(story.genre);
+  const excerpt = story.content.slice(0, 120).trim() + "…";
+  const genreLabel = tGen(GENRE_KEY_MAP[story.genre] ?? "genre_otro");
+  const dateStr = new Intl.DateTimeFormat(locale, {
     day: "numeric",
     month: "short",
     year: "numeric",
-  }).format(new Date(dateStr));
-}
-
-export default function StoryCard({ story }: StoryCardProps) {
-  const style = getGenreStyle(story.genre);
-  const excerpt = story.content.slice(0, 120).trim() + "…";
+  }).format(new Date(story.created_at));
 
   return (
     <Link
@@ -39,7 +44,7 @@ export default function StoryCard({ story }: StoryCardProps) {
           className="text-[10px] font-bold px-2 py-0.5 rounded-full"
           style={{ background: style.badge, color: style.text }}
         >
-          {story.genre.toUpperCase()}
+          {genreLabel.toUpperCase()}
         </span>
       </div>
 
@@ -53,10 +58,10 @@ export default function StoryCard({ story }: StoryCardProps) {
         </p>
         <div className="flex items-center justify-between mt-1">
           <span className="text-[11px] text-text-secondary">
-            {formatDate(story.created_at)} · {story.reading_time} min
+            {dateStr} · {story.reading_time} min
           </span>
           {story.is_favorite && (
-            <span className="text-sm" aria-label="Favorito">⭐</span>
+            <span className="text-sm" aria-label={tStory("favorite")}>⭐</span>
           )}
         </div>
       </div>
