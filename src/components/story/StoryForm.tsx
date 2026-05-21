@@ -94,27 +94,54 @@ export default function StoryForm() {
           readingTime: form.readingTime,
         }),
       });
-      const data = await res.json();
-      if (!res.ok) {
+
+      if (!res.ok || !res.body) {
+        const data = await res.json().catch(() => ({}));
         const err = data.error;
-        if (typeof err === "string") {
-          throw new Error(err);
-        } else if (err && typeof err === "object") {
+        if (typeof err === "string") throw new Error(err);
+        if (err && typeof err === "object") {
           const fieldErrors = err.fieldErrors
             ? Object.entries(err.fieldErrors as Record<string, string[]>)
                 .map(([, msgs]) => msgs.join(", "))
                 .filter(Boolean)
             : [];
-          const formErrors: string[] = Array.isArray(err.formErrors)
-            ? err.formErrors
-            : [];
+          const formErrors: string[] = Array.isArray(err.formErrors) ? err.formErrors : [];
           const messages = [...formErrors, ...fieldErrors];
           throw new Error(messages.length > 0 ? messages.join("; ") : "Error validando los datos del cuento");
-        } else {
-          throw new Error("Error generando el cuento");
+        }
+        throw new Error("Error generando el cuento");
+      }
+
+      const reader = res.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+
+        buffer += decoder.decode(value, { stream: true });
+        const parts = buffer.split("\n\n");
+        buffer = parts.pop() ?? "";
+
+        for (const part of parts) {
+          const line = part.trim();
+          if (!line.startsWith("data: ")) continue;
+          const event = JSON.parse(line.slice(6)) as {
+            chunk?: string;
+            done?: boolean;
+            id?: string;
+            error?: string;
+          };
+          if (event.error) throw new Error(event.error);
+          if (event.done && event.id) {
+            router.push(`/cuento/${event.id}`);
+            return;
+          }
         }
       }
-      router.push(`/cuento/${data.id}`);
+
+      throw new Error("El cuento no se completó correctamente");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error desconocido");
       setIsGenerating(false);
