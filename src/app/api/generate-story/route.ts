@@ -21,7 +21,7 @@ const StoryCharacterSchema = z.object({
 });
 
 const GenerateStorySchema = z.object({
-  characters: z.array(StoryCharacterSchema).min(1).max(5),
+  characters: z.array(StoryCharacterSchema).min(1).max(10),
   genre: z.string().min(1).max(100).trim(),
   location: z.string().min(1).max(200).trim().optional(),
   language: z.enum([

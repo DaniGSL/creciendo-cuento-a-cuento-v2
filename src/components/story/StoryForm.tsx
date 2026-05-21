@@ -95,7 +95,25 @@ export default function StoryForm() {
         }),
       });
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Error generando el cuento");
+      if (!res.ok) {
+        const err = data.error;
+        if (typeof err === "string") {
+          throw new Error(err);
+        } else if (err && typeof err === "object") {
+          const fieldErrors = err.fieldErrors
+            ? Object.entries(err.fieldErrors as Record<string, string[]>)
+                .map(([, msgs]) => msgs.join(", "))
+                .filter(Boolean)
+            : [];
+          const formErrors: string[] = Array.isArray(err.formErrors)
+            ? err.formErrors
+            : [];
+          const messages = [...formErrors, ...fieldErrors];
+          throw new Error(messages.length > 0 ? messages.join("; ") : "Error validando los datos del cuento");
+        } else {
+          throw new Error("Error generando el cuento");
+        }
+      }
       router.push(`/cuento/${data.id}`);
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error desconocido");
