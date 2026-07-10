@@ -20,7 +20,7 @@ export async function GET() {
         .eq("profile_id", pid),
       supabase
         .from("profiles")
-        .select("lang_ui, created_at")
+        .select("lang_ui, lang_ui_chosen, created_at")
         .eq("id", pid)
         .single(),
     ]);
@@ -47,6 +47,7 @@ export async function GET() {
       favoritesCount,
       avgRating: avgRating !== null ? Math.round(avgRating * 10) / 10 : null,
       langUi: profileRes.data?.lang_ui ?? "es",
+      langUiChosen: profileRes.data?.lang_ui_chosen ?? true,
       memberSince: profileRes.data?.created_at ?? null,
     });
     response.cookies.set("lang_ui", profileRes.data?.lang_ui ?? "es", {
@@ -87,7 +88,7 @@ export async function PATCH(request: NextRequest) {
     const supabase = createServerClient();
     const { error } = await supabase
       .from("profiles")
-      .update({ lang_ui: parsed.data.lang_ui })
+      .update({ lang_ui: parsed.data.lang_ui, lang_ui_chosen: true })
       .eq("id", session.profileId);
 
     if (error) throw error;

@@ -7,6 +7,7 @@ const UpdateStorySchema = z
   .object({
     is_favorite: z.boolean().optional(),
     rating: z.number().int().min(1).max(5).nullable().optional(),
+    feedback: z.string().max(1000).trim().nullable().optional(),
   })
   .refine((data) => Object.keys(data).length > 0, {
     message: "Debes proporcionar al menos un campo para actualizar",

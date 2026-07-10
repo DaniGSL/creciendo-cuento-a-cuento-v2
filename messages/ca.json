@@ -45,7 +45,11 @@
     "no_stories_subtitle": "Crea la teva primera història i apareixerà aquí!",
     "create_btn": "✨ Crear conte",
     "new_story_card": "Crear nova història",
-    "no_filter": "No hi ha contes amb aquests filtres."
+    "no_filter": "No hi ha contes amb aquests filtres.",
+    "saga_label": "Saga",
+    "chapters_one": "capítol",
+    "chapters_other": "capítols",
+    "continue_saga": "Continuar la saga"
   },
   "characters": {
     "title": "Els meus Personatges",
@@ -159,7 +163,20 @@
     "level_primaria_media": "Primària Mitjana",
     "level_primaria_alta": "Primària Alta",
     "level_secundaria": "Secundària",
-    "level_adulto": "Complexitat màxima"
+    "level_adulto": "Complexitat màxima",
+    "saga_section_title": "Vols continuar una saga?",
+    "saga_new_story_option": "Conte nou independent",
+    "saga_continue_prefix": "Continuar",
+    "saga_banner": "Capítol {chapter} de «{title}»",
+    "saga_characters_inherited": "Els personatges i l'idioma s'hereten de la saga per mantenir la coherència.",
+    "saga_language_locked": "(heretat de la saga)",
+    "summary_saga": "Saga",
+    "summary_instructions": "Indicacions",
+    "instructions_label": "Què vols que passi? (opcional)",
+    "instructions_placeholder": "Explica'ns idees per a la trama: una aventura concreta, un valor a treballar, alguna cosa que us hagi passat avui…",
+    "status_reviewing": "Revisant que tot sigui apropiat…",
+    "status_retrying": "Ajustant el conte…",
+    "status_finalizing": "Fent els últims retocs…"
   },
   "story": {
     "back": "Tornar als meus contes",
@@ -176,6 +193,50 @@
     "send_email_aria": "Enviar el conte per correu",
     "sending": "Enviant…",
     "sent": "Enviat!",
-    "send_error": "Error en enviar"
+    "send_error": "Error en enviar",
+    "continue_saga": "Continuar la saga",
+    "chapter_badge": "Capítol {chapter} de {total}",
+    "rate_title": "Us ha agradat aquest conte?",
+    "rate_subtitle": "La teva valoració ens ajuda a seguir millorant la plataforma. No és obligatòria.",
+    "rate_feedback_placeholder": "Vols explicar-nos res? (opcional)",
+    "rate_submit": "Enviar",
+    "rate_later": "Ara no",
+    "rate_sending": "Enviant…"
+  },
+  "onboarding": {
+    "title": "Benvinguda, família!",
+    "subtitle": "Tria l'idioma en què vols fer servir l'aplicació.",
+    "confirm": "Començar",
+    "changeable_note": "Podràs canviar-lo quan vulguis des del teu perfil."
+  },
+  "achievements": {
+    "heading": "Assoliments",
+    "unlocked": "Aconseguit",
+    "first_story_name": "Primer conte",
+    "first_story_desc": "Heu creat el vostre primer conte",
+    "stories_5_name": "Contacontes",
+    "stories_5_desc": "5 contes creats",
+    "stories_25_name": "Gran biblioteca",
+    "stories_25_desc": "25 contes creats",
+    "stories_50_name": "Llegendes de la lectura",
+    "stories_50_desc": "50 contes creats",
+    "first_saga_name": "Primera saga",
+    "first_saga_desc": "Heu començat una saga",
+    "saga_complete_name": "Saga completa",
+    "saga_complete_desc": "Una saga amb 5 capítols",
+    "polyglot_name": "Família políglota",
+    "polyglot_desc": "Contes en 3 idiomes diferents",
+    "critic_name": "Crítica literària",
+    "critic_desc": "5 contes valorats",
+    "collector_name": "Col·leccionistes",
+    "collector_desc": "5 contes preferits",
+    "reading_60_name": "Una hora de màgia",
+    "reading_60_desc": "60 minuts de lectura",
+    "reading_300_name": "Nits de conte",
+    "reading_300_desc": "300 minuts de lectura",
+    "streak_3_name": "En ratxa",
+    "streak_3_desc": "Contes 3 setmanes seguides",
+    "top_family_week_name": "Família més lectora",
+    "top_family_week_desc": "La família amb més contes aquesta setmana"
   }
 }

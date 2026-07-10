@@ -45,7 +45,11 @@
     "no_stories_subtitle": "Crea a túa primeira historia e aparecerá aquí!",
     "create_btn": "✨ Crear conto",
     "new_story_card": "Crear nova historia",
-    "no_filter": "Non hai contos con estes filtros."
+    "no_filter": "Non hai contos con estes filtros.",
+    "saga_label": "Saga",
+    "chapters_one": "capítulo",
+    "chapters_other": "capítulos",
+    "continue_saga": "Continuar a saga"
   },
   "characters": {
     "title": "Os meus Personaxes",
@@ -159,7 +163,20 @@
     "level_primaria_media": "Primaria Media",
     "level_primaria_alta": "Primaria Alta",
     "level_secundaria": "Secundaria",
-    "level_adulto": "Máxima complexidade"
+    "level_adulto": "Máxima complexidade",
+    "saga_section_title": "Queres continuar unha saga?",
+    "saga_new_story_option": "Conto novo independente",
+    "saga_continue_prefix": "Continuar",
+    "saga_banner": "Capítulo {chapter} de «{title}»",
+    "saga_characters_inherited": "Os personaxes e o idioma hérdanse da saga para manter a coherencia.",
+    "saga_language_locked": "(herdado da saga)",
+    "summary_saga": "Saga",
+    "summary_instructions": "Indicacións",
+    "instructions_label": "Que queres que aconteza? (opcional)",
+    "instructions_placeholder": "Cóntanos ideas para a trama: unha aventura concreta, un valor a traballar, algo que vos pasase hoxe…",
+    "status_reviewing": "Revisando que todo sexa apropiado…",
+    "status_retrying": "Axustando o conto…",
+    "status_finalizing": "Dando os últimos toques…"
   },
   "story": {
     "back": "Volver aos meus contos",
@@ -176,6 +193,50 @@
     "send_email_aria": "Enviar o conto por correo",
     "sending": "Enviando…",
     "sent": "Enviado!",
-    "send_error": "Erro ao enviar"
+    "send_error": "Erro ao enviar",
+    "continue_saga": "Continuar a saga",
+    "chapter_badge": "Capítulo {chapter} de {total}",
+    "rate_title": "Gustouvos este conto?",
+    "rate_subtitle": "A túa valoración axúdanos a seguir mellorando a plataforma. Non é obrigatoria.",
+    "rate_feedback_placeholder": "Queres contarnos algo? (opcional)",
+    "rate_submit": "Enviar",
+    "rate_later": "Agora non",
+    "rate_sending": "Enviando…"
+  },
+  "onboarding": {
+    "title": "Benvida, familia!",
+    "subtitle": "Escolle o idioma no que queres usar a aplicación.",
+    "confirm": "Comezar",
+    "changeable_note": "Poderás cambialo cando queiras desde o teu perfil."
+  },
+  "achievements": {
+    "heading": "Logros",
+    "unlocked": "Conseguido",
+    "first_story_name": "Primeiro conto",
+    "first_story_desc": "Creastes o voso primeiro conto",
+    "stories_5_name": "Contacontos",
+    "stories_5_desc": "5 contos creados",
+    "stories_25_name": "Gran biblioteca",
+    "stories_25_desc": "25 contos creados",
+    "stories_50_name": "Lendas da lectura",
+    "stories_50_desc": "50 contos creados",
+    "first_saga_name": "Primeira saga",
+    "first_saga_desc": "Comezastes unha saga",
+    "saga_complete_name": "Saga completa",
+    "saga_complete_desc": "Unha saga con 5 capítulos",
+    "polyglot_name": "Familia políglota",
+    "polyglot_desc": "Contos en 3 idiomas distintos",
+    "critic_name": "Crítica literaria",
+    "critic_desc": "5 contos valorados",
+    "collector_name": "Coleccionistas",
+    "collector_desc": "5 contos favoritos",
+    "reading_60_name": "Unha hora de maxia",
+    "reading_60_desc": "60 minutos de lectura",
+    "reading_300_name": "Noites de conto",
+    "reading_300_desc": "300 minutos de lectura",
+    "streak_3_name": "En racha",
+    "streak_3_desc": "Contos 3 semanas seguidas",
+    "top_family_week_name": "Familia máis lectora",
+    "top_family_week_desc": "A familia con máis contos esta semana"
   }
 }

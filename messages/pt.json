@@ -45,7 +45,11 @@
     "no_stories_subtitle": "Crie a sua primeira história e aparecerá aqui!",
     "create_btn": "✨ Criar história",
     "new_story_card": "Criar nova história",
-    "no_filter": "Não há histórias com estes filtros."
+    "no_filter": "Não há histórias com estes filtros.",
+    "saga_label": "Saga",
+    "chapters_one": "capítulo",
+    "chapters_other": "capítulos",
+    "continue_saga": "Continuar a saga"
   },
   "characters": {
     "title": "Os meus Personagens",
@@ -159,7 +163,20 @@
     "level_primaria_media": "Primário Médio",
     "level_primaria_alta": "Primário Alto",
     "level_secundaria": "Secundário",
-    "level_adulto": "Complexidade máxima"
+    "level_adulto": "Complexidade máxima",
+    "saga_section_title": "Continuar uma saga?",
+    "saga_new_story_option": "Nova história independente",
+    "saga_continue_prefix": "Continuar",
+    "saga_banner": "Capítulo {chapter} de «{title}»",
+    "saga_characters_inherited": "As personagens e o idioma são herdados da saga para manter a coerência.",
+    "saga_language_locked": "(herdado da saga)",
+    "summary_saga": "Saga",
+    "summary_instructions": "Indicações",
+    "instructions_label": "O que queres que aconteça? (opcional)",
+    "instructions_placeholder": "Conta-nos ideias para o enredo: uma aventura concreta, um valor a trabalhar, algo que vos tenha acontecido hoje…",
+    "status_reviewing": "A verificar que tudo é apropriado…",
+    "status_retrying": "A ajustar a história…",
+    "status_finalizing": "A dar os últimos retoques…"
   },
   "story": {
     "back": "Voltar às minhas histórias",
@@ -176,6 +193,50 @@
     "send_email_aria": "Enviar história por email",
     "sending": "A enviar…",
     "sent": "Enviado!",
-    "send_error": "Erro ao enviar"
+    "send_error": "Erro ao enviar",
+    "continue_saga": "Continuar a saga",
+    "chapter_badge": "Capítulo {chapter} de {total}",
+    "rate_title": "Gostaram desta história?",
+    "rate_subtitle": "A tua avaliação ajuda-nos a continuar a melhorar a plataforma. Não é obrigatória.",
+    "rate_feedback_placeholder": "Queres contar-nos algo? (opcional)",
+    "rate_submit": "Enviar",
+    "rate_later": "Agora não",
+    "rate_sending": "A enviar…"
+  },
+  "onboarding": {
+    "title": "Bem-vinda, família!",
+    "subtitle": "Escolhe o idioma em que queres usar a aplicação.",
+    "confirm": "Começar",
+    "changeable_note": "Podes mudá-lo quando quiseres no teu perfil."
+  },
+  "achievements": {
+    "heading": "Conquistas",
+    "unlocked": "Conseguido",
+    "first_story_name": "Primeira história",
+    "first_story_desc": "Criaram a vossa primeira história",
+    "stories_5_name": "Contadores de histórias",
+    "stories_5_desc": "5 histórias criadas",
+    "stories_25_name": "Grande biblioteca",
+    "stories_25_desc": "25 histórias criadas",
+    "stories_50_name": "Lendas da leitura",
+    "stories_50_desc": "50 histórias criadas",
+    "first_saga_name": "Primeira saga",
+    "first_saga_desc": "Começaram uma saga",
+    "saga_complete_name": "Saga completa",
+    "saga_complete_desc": "Uma saga com 5 capítulos",
+    "polyglot_name": "Família poliglota",
+    "polyglot_desc": "Histórias em 3 idiomas diferentes",
+    "critic_name": "Crítica literária",
+    "critic_desc": "5 histórias avaliadas",
+    "collector_name": "Colecionadores",
+    "collector_desc": "5 histórias favoritas",
+    "reading_60_name": "Uma hora de magia",
+    "reading_60_desc": "60 minutos de leitura",
+    "reading_300_name": "Noites de histórias",
+    "reading_300_desc": "300 minutos de leitura",
+    "streak_3_name": "Em sequência",
+    "streak_3_desc": "Histórias 3 semanas seguidas",
+    "top_family_week_name": "Família mais leitora",
+    "top_family_week_desc": "A família com mais histórias esta semana"
   }
 }

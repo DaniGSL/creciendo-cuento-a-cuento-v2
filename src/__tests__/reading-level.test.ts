@@ -137,6 +137,7 @@ describe("getLevelInstructions", () => {
 
   it("instructions reference the level name", () => {
     expect(getLevelInstructions("infantil")).toContain("Infantil");
-    expect(getLevelInstructions("adulto")).toContain("Adulto");
+    // El nivel "adulto" se muestra como "Máxima complejidad" en las instrucciones
+    expect(getLevelInstructions("adulto")).toContain("Máxima complejidad");
   });
 });

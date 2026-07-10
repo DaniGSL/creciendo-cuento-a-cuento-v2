@@ -45,5 +45,29 @@ export default async function CuentoPage({ params }: Props) {
 
   if (error || !data) notFound();
 
-  return <StoryReader story={data as Story} />;
+  const story = data as Story;
+
+  // Info de saga: cuántos capítulos tiene y si este es el último
+  let sagaLength = 1;
+  let isLastChapter = true;
+  if (story.saga_id) {
+    const { data: chapters } = await supabase
+      .from("stories")
+      .select("id, chapter_number")
+      .eq("profile_id", session!.profileId)
+      .eq("saga_id", story.saga_id)
+      .order("chapter_number", { ascending: true });
+    if (chapters?.length) {
+      sagaLength = chapters.length;
+      isLastChapter = chapters[chapters.length - 1].id === story.id;
+    }
+  }
+
+  return (
+    <StoryReader
+      story={story}
+      sagaLength={sagaLength}
+      isLastChapter={isLastChapter}
+    />
+  );
 }

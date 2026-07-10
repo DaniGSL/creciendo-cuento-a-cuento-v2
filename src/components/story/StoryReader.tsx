@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import type { Story, StoryLanguage } from "@/types/database";
 import { getGenreStyle, GENRE_KEY_MAP } from "@/lib/utils/genre";
@@ -25,9 +26,16 @@ const STORY_LANGUAGE_KEY_MAP: Record<StoryLanguage, string> = {
 
 interface StoryReaderProps {
   story: Story;
+  sagaLength: number;
+  isLastChapter: boolean;
 }
 
-export default function StoryReader({ story }: StoryReaderProps) {
+export default function StoryReader({
+  story,
+  sagaLength,
+  isLastChapter,
+}: StoryReaderProps) {
+  const router = useRouter();
   const tStory = useTranslations("story");
   const tGen = useTranslations("generate");
 
@@ -35,6 +43,54 @@ export default function StoryReader({ story }: StoryReaderProps) {
   const [rating, setRating] = useState<number | null>(story.rating);
   const [savingFav, setSavingFav] = useState(false);
   const [savingRating, setSavingRating] = useState(false);
+
+  // ── Invitación a valorar antes de salir ─────────────────────────────
+  const [showRateModal, setShowRateModal] = useState(false);
+  const [pendingHref, setPendingHref] = useState<string | null>(null);
+  const [rateDismissed, setRateDismissed] = useState(false);
+  const [modalRating, setModalRating] = useState<number | null>(null);
+  const [modalFeedback, setModalFeedback] = useState("");
+  const [sendingModal, setSendingModal] = useState(false);
+
+  const canContinueSaga =
+    story.saga_id === null || (isLastChapter && sagaLength < 5);
+
+  const interceptLeave = (e: React.MouseEvent, href: string) => {
+    if (rating !== null || rateDismissed) return; // ya valorado o descartado
+    e.preventDefault();
+    setPendingHref(href);
+    setShowRateModal(true);
+  };
+
+  const closeModalAndLeave = () => {
+    setShowRateModal(false);
+    setRateDismissed(true);
+    if (pendingHref) router.push(pendingHref);
+  };
+
+  const submitModalRating = async () => {
+    if (modalRating === null) {
+      closeModalAndLeave();
+      return;
+    }
+    setSendingModal(true);
+    try {
+      await fetch(`/api/stories/${story.id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          rating: modalRating,
+          ...(modalFeedback.trim() ? { feedback: modalFeedback.trim() } : {}),
+        }),
+      });
+      setRating(modalRating);
+    } catch {
+      // no bloquear la salida por un fallo de red
+    } finally {
+      setSendingModal(false);
+      closeModalAndLeave();
+    }
+  };
 
   const genreStyle = getGenreStyle(story.genre);
   const genreLabel = tGen(GENRE_KEY_MAP[story.genre] ?? "genre_otro");
@@ -85,6 +141,7 @@ export default function StoryReader({ story }: StoryReaderProps) {
       {/* Back */}
       <Link
         href="/biblioteca"
+        onClick={(e) => interceptLeave(e, "/biblioteca")}
         className="inline-flex items-center gap-1 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors"
       >
         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
@@ -116,6 +173,14 @@ export default function StoryReader({ story }: StoryReaderProps) {
           <span className="text-xs text-text-secondary">
             {levelLabel} ({levelCefr})
           </span>
+          {story.chapter_number !== null && (
+            <span
+              className="text-xs font-bold px-2.5 py-1 rounded-full ml-auto"
+              style={{ background: "rgba(125,167,240,0.18)", color: "var(--color-primary-dark)" }}
+            >
+              📚 {tStory("chapter_badge", { chapter: story.chapter_number, total: sagaLength })}
+            </span>
+          )}
         </div>
 
         {/* Title */}
@@ -216,10 +281,23 @@ export default function StoryReader({ story }: StoryReaderProps) {
         )}
       </article>
 
-      {/* CTA — create another */}
-      <div className="text-center mt-8">
+      {/* CTA — continue saga / create another */}
+      <div className="text-center mt-8 flex flex-col sm:flex-row gap-3 justify-center items-center">
+        {canContinueSaga && (
+          <Link
+            href={`/generar?continuar=${story.id}`}
+            onClick={(e) => interceptLeave(e, `/generar?continuar=${story.id}`)}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-transform active:scale-95"
+            style={{
+              background: "linear-gradient(135deg, #98D8AA 0%, #5FA777 100%)",
+            }}
+          >
+            📚 {tStory("continue_saga")}
+          </Link>
+        )}
         <Link
           href="/generar"
+          onClick={(e) => interceptLeave(e, "/generar")}
           className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold text-white transition-transform active:scale-95"
           style={{
             background: "linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%)",
@@ -228,6 +306,86 @@ export default function StoryReader({ story }: StoryReaderProps) {
           {tStory("create_another")}
         </Link>
       </div>
+
+      {/* Modal — invitación a valorar */}
+      {showRateModal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: "rgba(0,0,0,0.45)" }}
+          onClick={closeModalAndLeave}
+        >
+          <div
+            className="bg-surface-card rounded-2xl p-6 max-w-sm w-full space-y-4"
+            style={{ boxShadow: "var(--shadow-ambient)" }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="text-center">
+              <div className="text-3xl mb-2">⭐</div>
+              <h2 className="text-lg font-semibold text-text-primary">
+                {tStory("rate_title")}
+              </h2>
+              <p className="text-xs text-text-secondary mt-1">
+                {tStory("rate_subtitle")}
+              </p>
+            </div>
+
+            {/* Stars */}
+            <div className="flex justify-center gap-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  key={star}
+                  type="button"
+                  onClick={() => setModalRating(star)}
+                  className="transition-transform active:scale-110"
+                  aria-label={`${star} ★`}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="30"
+                    height="30"
+                    viewBox="0 0 24 24"
+                    fill={modalRating !== null && star <= modalRating ? "#F9D976" : "none"}
+                    stroke={modalRating !== null && star <= modalRating ? "#D97706" : "var(--color-text-secondary)"}
+                    strokeWidth={1.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                  </svg>
+                </button>
+              ))}
+            </div>
+
+            {/* Optional feedback */}
+            <textarea
+              value={modalFeedback}
+              onChange={(e) => setModalFeedback(e.target.value)}
+              placeholder={tStory("rate_feedback_placeholder")}
+              maxLength={1000}
+              rows={2}
+              className="w-full px-4 py-2.5 rounded-xl border-2 border-transparent text-sm bg-surface-low text-text-primary placeholder:text-text-secondary outline-none focus:border-[var(--color-primary)] resize-none"
+            />
+
+            <div className="flex gap-2">
+              <button
+                type="button"
+                onClick={closeModalAndLeave}
+                disabled={sendingModal}
+                className="flex-1 py-2.5 rounded-xl text-sm font-medium text-text-secondary bg-surface-low transition-colors disabled:opacity-50"
+              >
+                {tStory("rate_later")}
+              </button>
+              <button
+                type="button"
+                onClick={submitModalRating}
+                disabled={sendingModal || modalRating === null}
+                className="flex-1 py-2.5 rounded-xl text-sm font-semibold text-white transition-opacity disabled:opacity-40"
+                style={{ background: "var(--color-primary-dark)" }}
+              >
+                {sendingModal ? tStory("rate_sending") : tStory("rate_submit")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

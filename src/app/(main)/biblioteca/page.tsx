@@ -2,15 +2,20 @@
 
 import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { Story, StoryGenre } from "@/types/database";
 import StoryCard from "@/components/story/StoryCard";
 import { GENRE_STYLES, GENRES, GENRE_KEY_MAP, getGenreStyle } from "@/lib/utils/genre";
 
 type StoryPreview = Pick<
   Story,
-  "id" | "title" | "content" | "genre" | "language" | "reading_time" | "is_favorite" | "created_at"
+  "id" | "title" | "content" | "genre" | "language" | "reading_time" | "is_favorite" | "created_at" | "saga_id" | "chapter_number"
 >;
+
+interface SagaGroup {
+  sagaId: string;
+  chapters: StoryPreview[]; // ordenados por capítulo
+}
 
 export default function BibliotecaPage() {
   const t = useTranslations("library");
@@ -37,6 +42,34 @@ export default function BibliotecaPage() {
       return true;
     });
   }, [stories, activeGenre, onlyFavorites]);
+
+  // Agrupar sagas: una tarjeta por saga + cuentos sueltos
+  const { sagas, standalone } = useMemo(() => {
+    const bySaga = new Map<string, StoryPreview[]>();
+    const standalone: StoryPreview[] = [];
+    for (const s of filtered) {
+      if (s.saga_id) {
+        const arr = bySaga.get(s.saga_id) ?? [];
+        arr.push(s);
+        bySaga.set(s.saga_id, arr);
+      } else {
+        standalone.push(s);
+      }
+    }
+    const sagas: SagaGroup[] = [...bySaga.entries()].map(([sagaId, chapters]) => ({
+      sagaId,
+      chapters: chapters.sort(
+        (a, b) => (a.chapter_number ?? 0) - (b.chapter_number ?? 0)
+      ),
+    }));
+    // Ordenar por actividad más reciente
+    sagas.sort((a, b) => {
+      const lastA = Math.max(...a.chapters.map((c) => new Date(c.created_at).getTime()));
+      const lastB = Math.max(...b.chapters.map((c) => new Date(c.created_at).getTime()));
+      return lastB - lastA;
+    });
+    return { sagas, standalone };
+  }, [filtered]);
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-8">
@@ -135,7 +168,10 @@ export default function BibliotecaPage() {
             </p>
           )}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {filtered.map((story) => (
+            {sagas.map((saga) => (
+              <SagaCard key={saga.sagaId} saga={saga} />
+            ))}
+            {standalone.map((story) => (
               <StoryCard key={story.id} story={story} />
             ))}
 
@@ -156,6 +192,101 @@ export default function BibliotecaPage() {
           </div>
         </>
       )}
+    </div>
+  );
+}
+
+// ─── Saga Card ────────────────────────────────────────────────────────────────
+
+function SagaCard({ saga }: { saga: SagaGroup }) {
+  const locale = useLocale();
+  const t = useTranslations("library");
+  const tGen = useTranslations("generate");
+
+  const first = saga.chapters[0];
+  const last = saga.chapters[saga.chapters.length - 1];
+  const style = getGenreStyle(first.genre);
+  const genreLabel = tGen(GENRE_KEY_MAP[first.genre] ?? "genre_otro");
+  const anyFavorite = saga.chapters.some((c) => c.is_favorite);
+  const dateStr = new Intl.DateTimeFormat(locale, {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(last.created_at));
+
+  return (
+    <div
+      className="flex flex-col bg-surface-card rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 relative"
+      style={{
+        boxShadow:
+          "var(--shadow-ambient), 4px 4px 0 0 rgba(125,167,240,0.18), 8px 8px 0 0 rgba(125,167,240,0.08)",
+      }}
+    >
+      {/* Genre header */}
+      <div
+        className="h-20 flex items-center justify-between px-4 flex-shrink-0"
+        style={{ background: style.bg }}
+      >
+        <span className="text-4xl">{style.emoji}</span>
+        <div className="flex flex-col items-end gap-1">
+          <span
+            className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style={{ background: style.badge, color: style.text }}
+          >
+            {genreLabel.toUpperCase()}
+          </span>
+          <span
+            className="text-[10px] font-bold px-2 py-0.5 rounded-full"
+            style={{ background: "rgba(255,255,255,0.85)", color: "var(--color-primary-dark)" }}
+          >
+            📚 {t("saga_label")} · {saga.chapters.length}/5
+          </span>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-4 gap-2">
+        <h3 className="font-display italic text-base text-primary-dark leading-snug line-clamp-2">
+          {first.title}
+        </h3>
+
+        {/* Chapter links */}
+        <div className="flex flex-wrap gap-1.5">
+          {saga.chapters.map((c) => (
+            <Link
+              key={c.id}
+              href={`/cuento/${c.id}`}
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold transition-transform active:scale-95"
+              style={{
+                background: "rgba(125,167,240,0.15)",
+                color: "var(--color-primary-dark)",
+              }}
+              title={c.title}
+            >
+              {c.chapter_number ?? "?"}
+            </Link>
+          ))}
+          {saga.chapters.length < 5 && (
+            <Link
+              href={`/generar?continuar=${last.id}`}
+              className="w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold border-2 border-dashed transition-transform active:scale-95"
+              style={{ borderColor: "var(--color-primary)", color: "var(--color-primary-dark)" }}
+              title={t("continue_saga")}
+              aria-label={t("continue_saga")}
+            >
+              +
+            </Link>
+          )}
+        </div>
+
+        <div className="flex items-center justify-between mt-auto pt-1">
+          <span className="text-[11px] text-text-secondary">
+            {dateStr} · {saga.chapters.length}{" "}
+            {t(saga.chapters.length !== 1 ? "chapters_other" : "chapters_one")}
+          </span>
+          {anyFavorite && <span className="text-sm">⭐</span>}
+        </div>
+      </div>
     </div>
   );
 }

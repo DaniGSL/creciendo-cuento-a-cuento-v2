@@ -45,7 +45,11 @@
     "no_stories_subtitle": "أنشئ قصتك الأولى وستظهر هنا!",
     "create_btn": "✨ إنشاء قصة",
     "new_story_card": "إنشاء قصة جديدة",
-    "no_filter": "لا توجد قصص تطابق هذه الفلاتر."
+    "no_filter": "لا توجد قصص تطابق هذه الفلاتر.",
+    "saga_label": "سلسلة",
+    "chapters_one": "فصل",
+    "chapters_other": "فصول",
+    "continue_saga": "متابعة السلسلة"
   },
   "characters": {
     "title": "شخصياتي",
@@ -159,7 +163,20 @@
     "level_primaria_media": "ابتدائي متوسط",
     "level_primaria_alta": "ابتدائي مرتفع",
     "level_secundaria": "ثانوي",
-    "level_adulto": "أقصى تعقيد"
+    "level_adulto": "أقصى تعقيد",
+    "saga_section_title": "هل تريد متابعة سلسلة؟",
+    "saga_new_story_option": "قصة جديدة مستقلة",
+    "saga_continue_prefix": "متابعة",
+    "saga_banner": "الفصل {chapter} من «{title}»",
+    "saga_characters_inherited": "الشخصيات واللغة تُورَّث من السلسلة للحفاظ على تماسك القصة.",
+    "saga_language_locked": "(موروثة من السلسلة)",
+    "summary_saga": "سلسلة",
+    "summary_instructions": "إرشادات",
+    "instructions_label": "ماذا تريد أن يحدث؟ (اختياري)",
+    "instructions_placeholder": "شاركنا أفكارًا للحبكة: مغامرة معينة، قيمة تريد ترسيخها، شيء حدث اليوم…",
+    "status_reviewing": "نتحقق من أن كل شيء مناسب للأطفال…",
+    "status_retrying": "نعدّل القصة…",
+    "status_finalizing": "نضيف اللمسات الأخيرة…"
   },
   "story": {
     "back": "العودة إلى قصصي",
@@ -176,6 +193,50 @@
     "send_email_aria": "إرسال القصة بالبريد الإلكتروني",
     "sending": "جارٍ الإرسال…",
     "sent": "تم الإرسال!",
-    "send_error": "خطأ في الإرسال"
+    "send_error": "خطأ في الإرسال",
+    "continue_saga": "متابعة السلسلة",
+    "chapter_badge": "الفصل {chapter} من {total}",
+    "rate_title": "هل أعجبتكم هذه القصة؟",
+    "rate_subtitle": "تقييمك يساعدنا على مواصلة تحسين المنصة. وهو ليس إلزاميًا.",
+    "rate_feedback_placeholder": "هل لديك ما تخبرنا به؟ (اختياري)",
+    "rate_submit": "إرسال",
+    "rate_later": "ليس الآن",
+    "rate_sending": "جارٍ الإرسال…"
+  },
+  "onboarding": {
+    "title": "أهلًا بكم أيتها العائلة!",
+    "subtitle": "اختر اللغة التي تريد استخدام التطبيق بها.",
+    "confirm": "ابدأ",
+    "changeable_note": "يمكنك تغييرها في أي وقت من ملفك الشخصي."
+  },
+  "achievements": {
+    "heading": "الإنجازات",
+    "unlocked": "تم تحقيقه",
+    "first_story_name": "أول قصة",
+    "first_story_desc": "أنشأتم قصتكم الأولى",
+    "stories_5_name": "رواة القصص",
+    "stories_5_desc": "إنشاء 5 قصص",
+    "stories_25_name": "مكتبة كبيرة",
+    "stories_25_desc": "إنشاء 25 قصة",
+    "stories_50_name": "أساطير القراءة",
+    "stories_50_desc": "إنشاء 50 قصة",
+    "first_saga_name": "أول سلسلة",
+    "first_saga_desc": "بدأتم سلسلة قصصية",
+    "saga_complete_name": "سلسلة كاملة",
+    "saga_complete_desc": "سلسلة من 5 فصول",
+    "polyglot_name": "عائلة متعددة اللغات",
+    "polyglot_desc": "قصص بثلاث لغات مختلفة",
+    "critic_name": "ناقد أدبي",
+    "critic_desc": "تقييم 5 قصص",
+    "collector_name": "هواة جمع",
+    "collector_desc": "5 قصص مفضلة",
+    "reading_60_name": "ساعة من السحر",
+    "reading_60_desc": "60 دقيقة من القراءة",
+    "reading_300_name": "ليالي الحكايات",
+    "reading_300_desc": "300 دقيقة من القراءة",
+    "streak_3_name": "متواصلون",
+    "streak_3_desc": "قصص لثلاثة أسابيع متتالية",
+    "top_family_week_name": "العائلة الأكثر قراءة",
+    "top_family_week_desc": "العائلة صاحبة أكبر عدد من القصص هذا الأسبوع"
   }
 }

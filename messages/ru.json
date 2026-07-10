@@ -45,7 +45,11 @@
     "no_stories_subtitle": "Создайте свою первую историю, и она появится здесь!",
     "create_btn": "✨ Создать сказку",
     "new_story_card": "Создать новую сказку",
-    "no_filter": "Нет сказок с такими фильтрами."
+    "no_filter": "Нет сказок с такими фильтрами.",
+    "saga_label": "Сага",
+    "chapters_one": "глава",
+    "chapters_other": "главы",
+    "continue_saga": "Продолжить сагу"
   },
   "characters": {
     "title": "Мои персонажи",
@@ -159,7 +163,20 @@
     "level_primaria_media": "Начальная (ср.)",
     "level_primaria_alta": "Начальная (ст.)",
     "level_secundaria": "Средняя школа",
-    "level_adulto": "Максимальная сложность"
+    "level_adulto": "Максимальная сложность",
+    "saga_section_title": "Продолжить сагу?",
+    "saga_new_story_option": "Новая отдельная сказка",
+    "saga_continue_prefix": "Продолжить",
+    "saga_banner": "Глава {chapter} — «{title}»",
+    "saga_characters_inherited": "Персонажи и язык наследуются из саги, чтобы история оставалась цельной.",
+    "saga_language_locked": "(унаследован из саги)",
+    "summary_saga": "Сага",
+    "summary_instructions": "Пожелания",
+    "instructions_label": "Что должно произойти? (необязательно)",
+    "instructions_placeholder": "Поделитесь идеями для сюжета: конкретное приключение, важная ценность, что-то случившееся сегодня…",
+    "status_reviewing": "Проверяем, что всё подходит детям…",
+    "status_retrying": "Дорабатываем сказку…",
+    "status_finalizing": "Последние штрихи…"
   },
   "story": {
     "back": "Назад к моим сказкам",
@@ -176,6 +193,50 @@
     "send_email_aria": "Отправить сказку по email",
     "sending": "Отправка…",
     "sent": "Отправлено!",
-    "send_error": "Ошибка отправки"
+    "send_error": "Ошибка отправки",
+    "continue_saga": "Продолжить сагу",
+    "chapter_badge": "Глава {chapter} из {total}",
+    "rate_title": "Вам понравилась эта сказка?",
+    "rate_subtitle": "Ваша оценка помогает нам улучшать платформу. Она необязательна.",
+    "rate_feedback_placeholder": "Хотите что-то рассказать? (необязательно)",
+    "rate_submit": "Отправить",
+    "rate_later": "Не сейчас",
+    "rate_sending": "Отправка…"
+  },
+  "onboarding": {
+    "title": "Добро пожаловать!",
+    "subtitle": "Выберите язык, на котором хотите пользоваться приложением.",
+    "confirm": "Начать",
+    "changeable_note": "Вы сможете изменить его в любой момент в профиле."
+  },
+  "achievements": {
+    "heading": "Достижения",
+    "unlocked": "Получено",
+    "first_story_name": "Первая сказка",
+    "first_story_desc": "Вы создали свою первую сказку",
+    "stories_5_name": "Сказочники",
+    "stories_5_desc": "Создано 5 сказок",
+    "stories_25_name": "Большая библиотека",
+    "stories_25_desc": "Создано 25 сказок",
+    "stories_50_name": "Легенды чтения",
+    "stories_50_desc": "Создано 50 сказок",
+    "first_saga_name": "Первая сага",
+    "first_saga_desc": "Вы начали сагу",
+    "saga_complete_name": "Полная сага",
+    "saga_complete_desc": "Сага из 5 глав",
+    "polyglot_name": "Семья-полиглот",
+    "polyglot_desc": "Сказки на 3 разных языках",
+    "critic_name": "Литературный критик",
+    "critic_desc": "Оценено 5 сказок",
+    "collector_name": "Коллекционеры",
+    "collector_desc": "5 любимых сказок",
+    "reading_60_name": "Час волшебства",
+    "reading_60_desc": "60 минут чтения",
+    "reading_300_name": "Сказочные вечера",
+    "reading_300_desc": "300 минут чтения",
+    "streak_3_name": "Серия недель",
+    "streak_3_desc": "Сказки 3 недели подряд",
+    "top_family_week_name": "Самая читающая семья",
+    "top_family_week_desc": "Семья с наибольшим числом сказок за эту неделю"
   }
 }

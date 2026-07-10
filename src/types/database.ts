@@ -50,6 +50,7 @@ export interface Profile {
   id: string;
   code_hash: string;
   lang_ui: string;
+  lang_ui_chosen: boolean;
   created_at: string;
   last_access: string;
   is_active: boolean;
@@ -81,6 +82,10 @@ export interface Story {
   characters: StoryCharacter[];
   is_favorite: boolean;
   rating: number | null; // 1-5
+  feedback: string | null; // comentario opcional de la familia
+  saga_id: string | null; // agrupa capítulos de una saga (id del primer capítulo)
+  chapter_number: number | null; // 1-5 dentro de la saga
+  summary: string | null; // resumen corto para contexto de saga
   created_at: string;
 }
 
@@ -105,9 +110,9 @@ export interface Database {
       };
       stories: {
         Row: Story;
-        Insert: Omit<Story, "id" | "created_at" | "is_favorite" | "rating">;
+        Insert: Omit<Story, "id" | "created_at" | "is_favorite" | "rating" | "feedback">;
         Update: Partial<
-          Pick<Story, "title" | "is_favorite" | "rating">
+          Pick<Story, "title" | "is_favorite" | "rating" | "feedback" | "saga_id" | "chapter_number" | "summary">
         >;
       };
     };

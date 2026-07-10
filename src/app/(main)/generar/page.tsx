@@ -6,8 +6,13 @@ export const metadata: Metadata = {
   title: "Crear Cuento · Creciendo Cuento a Cuento",
 };
 
-export default async function GenerarPage() {
+export default async function GenerarPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ continuar?: string }>;
+}) {
   const t = await getTranslations("generate");
+  const { continuar } = await searchParams;
 
   return (
     <div>
@@ -28,7 +33,7 @@ export default async function GenerarPage() {
         </p>
       </div>
 
-      <StoryForm />
+      <StoryForm continueFromId={continuar ?? null} />
     </div>
   );
 }

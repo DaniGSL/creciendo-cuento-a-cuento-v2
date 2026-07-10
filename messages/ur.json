@@ -45,7 +45,11 @@
     "no_stories_subtitle": "اپنی پہلی کہانی بنائیں اور یہ یہاں ظاہر ہوگی!",
     "create_btn": "✨ کہانی بنائیں",
     "new_story_card": "نئی کہانی بنائیں",
-    "no_filter": "ان فلٹرز سے کوئی کہانی نہیں ملی۔"
+    "no_filter": "ان فلٹرز سے کوئی کہانی نہیں ملی۔",
+    "saga_label": "سلسلہ",
+    "chapters_one": "باب",
+    "chapters_other": "ابواب",
+    "continue_saga": "سلسلہ جاری رکھیں"
   },
   "characters": {
     "title": "میرے کردار",
@@ -159,7 +163,20 @@
     "level_primaria_media": "ابتدائی درمیانی",
     "level_primaria_alta": "ابتدائی اعلیٰ",
     "level_secundaria": "ثانوی",
-    "level_adulto": "زیادہ پیچیدگی"
+    "level_adulto": "زیادہ پیچیدگی",
+    "saga_section_title": "کیا سلسلہ جاری رکھنا چاہتے ہیں؟",
+    "saga_new_story_option": "نئی الگ کہانی",
+    "saga_continue_prefix": "جاری رکھیں",
+    "saga_banner": "«{title}» کا باب {chapter}",
+    "saga_characters_inherited": "کہانی کے تسلسل کے لیے کردار اور زبان سلسلے سے لی جاتی ہیں۔",
+    "saga_language_locked": "(سلسلے سے لی گئی)",
+    "summary_saga": "سلسلہ",
+    "summary_instructions": "ہدایات",
+    "instructions_label": "آپ کیا چاہتے ہیں کہ ہو؟ (اختیاری)",
+    "instructions_placeholder": "کہانی کے لیے خیالات بتائیں: کوئی خاص مہم، کوئی سبق، یا آج پیش آنے والی کوئی بات…",
+    "status_reviewing": "جانچ رہے ہیں کہ سب کچھ بچوں کے لیے مناسب ہے…",
+    "status_retrying": "کہانی میں ترمیم ہو رہی ہے…",
+    "status_finalizing": "آخری تکمیل ہو رہی ہے…"
   },
   "story": {
     "back": "میری کہانیوں پر واپس",
@@ -176,6 +193,50 @@
     "send_email_aria": "کہانی ای میل سے بھیجیں",
     "sending": "بھیجا جا رہا ہے…",
     "sent": "بھیج دیا!",
-    "send_error": "بھیجنے میں خطأ"
+    "send_error": "بھیجنے میں خطأ",
+    "continue_saga": "سلسلہ جاری رکھیں",
+    "chapter_badge": "باب {chapter} از {total}",
+    "rate_title": "کیا آپ کو یہ کہانی پسند آئی؟",
+    "rate_subtitle": "آپ کی رائے پلیٹ فارم کو بہتر بنانے میں ہماری مدد کرتی ہے۔ یہ لازمی نہیں ہے۔",
+    "rate_feedback_placeholder": "کچھ بتانا چاہیں گے؟ (اختیاری)",
+    "rate_submit": "بھیجیں",
+    "rate_later": "ابھی نہیں",
+    "rate_sending": "بھیجا جا رہا ہے…"
+  },
+  "onboarding": {
+    "title": "خوش آمدید، پیارے خاندان!",
+    "subtitle": "وہ زبان منتخب کریں جس میں آپ ایپ استعمال کرنا چاہتے ہیں۔",
+    "confirm": "شروع کریں",
+    "changeable_note": "آپ اسے کسی بھی وقت اپنی پروفائل سے بدل سکتے ہیں۔"
+  },
+  "achievements": {
+    "heading": "کامیابیاں",
+    "unlocked": "حاصل شدہ",
+    "first_story_name": "پہلی کہانی",
+    "first_story_desc": "آپ نے اپنی پہلی کہانی بنائی",
+    "stories_5_name": "کہانی گو",
+    "stories_5_desc": "5 کہانیاں بنائیں",
+    "stories_25_name": "بڑی لائبریری",
+    "stories_25_desc": "25 کہانیاں بنائیں",
+    "stories_50_name": "مطالعے کے شہسوار",
+    "stories_50_desc": "50 کہانیاں بنائیں",
+    "first_saga_name": "پہلا سلسلہ",
+    "first_saga_desc": "آپ نے ایک سلسلہ شروع کیا",
+    "saga_complete_name": "مکمل سلسلہ",
+    "saga_complete_desc": "5 ابواب کا سلسلہ",
+    "polyglot_name": "کثیر لسانی خاندان",
+    "polyglot_desc": "3 مختلف زبانوں میں کہانیاں",
+    "critic_name": "ادبی نقاد",
+    "critic_desc": "5 کہانیوں کی درجہ بندی",
+    "collector_name": "جمع کرنے والے",
+    "collector_desc": "5 پسندیدہ کہانیاں",
+    "reading_60_name": "جادو کا ایک گھنٹہ",
+    "reading_60_desc": "60 منٹ کا مطالعہ",
+    "reading_300_name": "کہانیوں کی راتیں",
+    "reading_300_desc": "300 منٹ کا مطالعہ",
+    "streak_3_name": "مسلسل",
+    "streak_3_desc": "لگاتار 3 ہفتے کہانیاں",
+    "top_family_week_name": "سب سے زیادہ پڑھنے والا خاندان",
+    "top_family_week_desc": "اس ہفتے سب سے زیادہ کہانیوں والا خاندان"
   }
 }

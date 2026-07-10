@@ -16,6 +16,14 @@ interface ProfileStats {
   memberSince: string | null;
 }
 
+interface Achievement {
+  id: string;
+  emoji: string;
+  achieved: boolean;
+  progress: number;
+  target: number;
+}
+
 // ─── Language options ─────────────────────────────────────────────────────────
 
 const LANG_OPTIONS = [
@@ -60,7 +68,9 @@ function StatCard({
 export default function PerfilPage() {
   const router = useRouter();
   const t = useTranslations("profile");
+  const tAch = useTranslations("achievements");
   const [stats, setStats] = useState<ProfileStats | null>(null);
+  const [achievements, setAchievements] = useState<Achievement[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLang, setSelectedLang] = useState("es");
   const [savingLang, setSavingLang] = useState(false);
@@ -77,6 +87,15 @@ export default function PerfilPage() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
+
+    fetch("/api/profile/achievements")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data && Array.isArray(data.achievements)) {
+          setAchievements(data.achievements);
+        }
+      })
+      .catch(() => {});
   }, []);
 
   const handleLangChange = async (lang: string) => {
@@ -188,6 +207,61 @@ export default function PerfilPage() {
           </p>
         )}
       </section>
+
+      {/* Achievements */}
+      {achievements.length > 0 && (
+        <section>
+          <div className="flex items-baseline justify-between mb-3 px-1">
+            <h2 className="text-sm font-semibold text-text-secondary uppercase tracking-wide">
+              🏅 {tAch("heading")}
+            </h2>
+            <span className="text-xs text-text-secondary">
+              {achievements.filter((a) => a.achieved).length}/{achievements.length}
+            </span>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {achievements.map((a) => (
+              <div
+                key={a.id}
+                className="bg-surface-card rounded-2xl p-4 flex flex-col items-center gap-1 text-center transition-opacity"
+                style={{
+                  boxShadow: "var(--shadow-ambient)",
+                  opacity: a.achieved ? 1 : 0.55,
+                }}
+              >
+                <span
+                  className="text-3xl"
+                  style={a.achieved ? undefined : { filter: "grayscale(1)" }}
+                >
+                  {a.emoji}
+                </span>
+                <span className="text-xs font-semibold text-text-primary leading-tight">
+                  {tAch(`${a.id}_name`)}
+                </span>
+                <span className="text-[11px] text-text-secondary leading-snug">
+                  {tAch(`${a.id}_desc`)}
+                </span>
+                {!a.achieved && a.target > 1 && (
+                  <span
+                    className="text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full"
+                    style={{ background: "var(--color-surface-low)", color: "var(--color-text-secondary)" }}
+                  >
+                    {a.progress}/{a.target}
+                  </span>
+                )}
+                {a.achieved && (
+                  <span
+                    className="text-[10px] font-bold mt-1 px-2 py-0.5 rounded-full"
+                    style={{ background: "rgba(152,216,170,0.25)", color: "#3E7A52" }}
+                  >
+                    ✓ {tAch("unlocked")}
+                  </span>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Language preference */}
       <section

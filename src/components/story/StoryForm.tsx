@@ -1,9 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import type { StoryCharacter, StoryGenre, StoryLanguage, ReadingLevel } from "@/types/database";
+import type { Story, StoryCharacter, StoryGenre, StoryLanguage, ReadingLevel } from "@/types/database";
 import CharacterManager from "@/components/character/CharacterManager";
 import GenreCard from "./GenreCard";
 import { GENRES, GENRE_KEY_MAP } from "@/lib/utils/genre";
@@ -21,7 +21,15 @@ interface FormState {
   language: StoryLanguage;
   readingLevel: ReadingLevel;
   readingTime: number;
+  instructions: string;
 }
+
+type SagaCandidate = Pick<
+  Story,
+  "id" | "title" | "language" | "characters" | "reading_level" | "genre" | "saga_id" | "chapter_number" | "created_at"
+>;
+
+type GenStatus = "writing" | "reviewing" | "retrying" | "finalizing";
 
 const LANGUAGES: StoryLanguage[] = [
   "español", "catalán", "gallego", "inglés",
@@ -51,7 +59,11 @@ const LEVEL_KEY_MAP = READING_LEVEL_KEY_MAP;
 
 const TIME_OPTIONS = [5, 10, 15, 20];
 
-export default function StoryForm() {
+export default function StoryForm({
+  continueFromId = null,
+}: {
+  continueFromId?: string | null;
+}) {
   const router = useRouter();
   const t = useTranslations("generate");
   const [step, setStep] = useState<Step>(1);
@@ -64,13 +76,79 @@ export default function StoryForm() {
     language: "español",
     readingLevel: "primaria_media",
     readingTime: 10,
+    instructions: "",
   });
   const [isGenerating, setIsGenerating] = useState(false);
+  const [genStatus, setGenStatus] = useState<GenStatus>("writing");
   const [error, setError] = useState<string | null>(null);
+
+  // ── Sagas: cuentos que se pueden continuar ──────────────────────────
+  const [allStories, setAllStories] = useState<SagaCandidate[]>([]);
+  const [sagaOriginId, setSagaOriginId] = useState<string | null>(null);
+
+  useEffect(() => {
+    fetch("/api/stories")
+      .then((r) => r.json())
+      .then((data) => {
+        if (Array.isArray(data)) setAllStories(data);
+      })
+      .catch(() => {});
+  }, []);
+
+  // Elegibles: cuentos sueltos, o el ÚLTIMO capítulo de sagas con <5 capítulos
+  const sagaCandidates = useMemo(() => {
+    const bySaga = new Map<string, SagaCandidate[]>();
+    const standalone: SagaCandidate[] = [];
+    for (const s of allStories) {
+      if (s.saga_id) {
+        const arr = bySaga.get(s.saga_id) ?? [];
+        arr.push(s);
+        bySaga.set(s.saga_id, arr);
+      } else {
+        standalone.push(s);
+      }
+    }
+    const result: (SagaCandidate & { sagaLength: number })[] = standalone.map(
+      (s) => ({ ...s, sagaLength: 1 })
+    );
+    for (const chapters of bySaga.values()) {
+      if (chapters.length >= 5) continue;
+      const last = [...chapters].sort(
+        (a, b) => (a.chapter_number ?? 0) - (b.chapter_number ?? 0)
+      )[chapters.length - 1];
+      result.push({ ...last, sagaLength: chapters.length });
+    }
+    return result.sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
+  }, [allStories]);
+
+  const sagaOrigin = useMemo(
+    () => sagaCandidates.find((s) => s.id === sagaOriginId) ?? null,
+    [sagaCandidates, sagaOriginId]
+  );
+
+  // Preselección al llegar desde «Continuar la saga» de un cuento
+  useEffect(() => {
+    if (!continueFromId || allStories.length === 0) return;
+    const target = allStories.find((s) => s.id === continueFromId);
+    if (!target) return;
+    // Si es un capítulo intermedio, continuar desde el último de su saga
+    const candidate =
+      sagaCandidates.find((s) => s.id === continueFromId) ??
+      (target.saga_id
+        ? sagaCandidates.find((s) => s.saga_id === target.saga_id)
+        : null);
+    if (candidate) {
+      setSagaOriginId(candidate.id);
+      setForm((f) => ({ ...f, genre: candidate.genre, language: candidate.language }));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [continueFromId, allStories.length]);
 
   const progress = step === 1 ? 33 : step === 2 ? 66 : 100;
 
-  const canNext1 = form.selectedCharacters.length > 0;
+  const canNext1 = sagaOrigin !== null || form.selectedCharacters.length > 0;
   const genreValid = form.genre !== null && (form.genre !== "Otro" || form.genreCustom.trim().length > 0);
   const locationValid = form.location !== null && (form.location !== "Otro" || form.locationCustom.trim().length > 0);
   const canNext2 = genreValid && locationValid;
@@ -80,18 +158,25 @@ export default function StoryForm() {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    setGenStatus("writing");
     setError(null);
     try {
       const res = await fetch("/api/generate-story", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          characters: form.selectedCharacters,
+          characters: sagaOrigin
+            ? sagaOrigin.characters
+            : form.selectedCharacters,
           genre: effectiveGenre,
           location: effectiveLocation,
-          language: form.language,
+          language: sagaOrigin ? sagaOrigin.language : form.language,
           readingLevel: form.readingLevel,
           readingTime: form.readingTime,
+          ...(form.instructions.trim()
+            ? { instructions: form.instructions.trim() }
+            : {}),
+          ...(sagaOrigin ? { continueFromStoryId: sagaOrigin.id } : {}),
         }),
       });
 
@@ -129,11 +214,15 @@ export default function StoryForm() {
           if (!line.startsWith("data: ")) continue;
           const event = JSON.parse(line.slice(6)) as {
             chunk?: string;
+            status?: string;
             done?: boolean;
             id?: string;
             error?: string;
           };
           if (event.error) throw new Error(event.error);
+          if (event.status === "reviewing") setGenStatus("reviewing");
+          if (event.status === "retrying") setGenStatus("retrying");
+          if (event.status === "finalizing") setGenStatus("finalizing");
           if (event.done && event.id) {
             router.push(`/cuento/${event.id}`);
             return;
@@ -172,14 +261,78 @@ export default function StoryForm() {
         className="bg-surface-card rounded-2xl p-6"
         style={{ boxShadow: "var(--shadow-ambient)" }}
       >
-        {/* ── Step 1: Characters ── */}
+        {/* ── Step 1: Characters (o continuación de saga) ── */}
         {step === 1 && (
-          <CharacterManager
-            selectedCharacters={form.selectedCharacters}
-            onSelectionChange={(chars) =>
-              setForm((f) => ({ ...f, selectedCharacters: chars }))
-            }
-          />
+          <div className="space-y-6">
+            {/* Saga selector */}
+            {sagaCandidates.length > 0 && (
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
+                  📚 {t("saga_section_title")}
+                </p>
+                <select
+                  value={sagaOriginId ?? ""}
+                  onChange={(e) => {
+                    const id = e.target.value || null;
+                    setSagaOriginId(id);
+                    const origin = sagaCandidates.find((s) => s.id === id);
+                    if (origin) {
+                      setForm((f) => ({
+                        ...f,
+                        genre: origin.genre,
+                        language: origin.language,
+                      }));
+                    }
+                  }}
+                  className="w-full px-4 py-2.5 rounded-xl border-2 text-sm bg-surface-low text-text-primary outline-none"
+                  style={{ borderColor: sagaOrigin ? "var(--color-primary)" : "transparent" }}
+                >
+                  <option value="">{t("saga_new_story_option")}</option>
+                  {sagaCandidates.map((s) => (
+                    <option key={s.id} value={s.id}>
+                      {t("saga_continue_prefix")} «{s.title}»
+                      {s.sagaLength > 1 ? ` (${s.sagaLength}/5)` : ""}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
+            {sagaOrigin ? (
+              <div
+                className="rounded-xl p-4 space-y-2"
+                style={{ background: "rgba(125,167,240,0.10)" }}
+              >
+                <p className="text-sm font-semibold text-primary-dark">
+                  📖 {t("saga_banner", {
+                    chapter: sagaOrigin.sagaLength + 1,
+                    title: sagaOrigin.title,
+                  })}
+                </p>
+                <p className="text-xs text-text-secondary">
+                  {t("saga_characters_inherited")}
+                </p>
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {(sagaOrigin.characters ?? []).map((c) => (
+                    <span
+                      key={c.id ?? c.name}
+                      className="px-3 py-1 rounded-full text-xs font-medium bg-surface-low text-text-primary"
+                      title={c.description}
+                    >
+                      {c.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <CharacterManager
+                selectedCharacters={form.selectedCharacters}
+                onSelectionChange={(chars) =>
+                  setForm((f) => ({ ...f, selectedCharacters: chars }))
+                }
+              />
+            )}
+          </div>
         )}
 
         {/* ── Step 2: Story settings ── */}
@@ -266,14 +419,21 @@ export default function StoryForm() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
                 {t("language_label")}
+                {sagaOrigin && (
+                  <span className="ml-2 normal-case font-normal">
+                    {t("saga_language_locked")}
+                  </span>
+                )}
               </p>
               <div className="flex flex-wrap gap-2">
                 {LANGUAGES.map((lang) => {
                   const active = form.language === lang;
+                  if (sagaOrigin && !active) return null;
                   return (
                     <button
                       key={lang}
                       type="button"
+                      disabled={sagaOrigin !== null}
                       onClick={() => setForm((f) => ({ ...f, language: lang }))}
                       className="px-3 py-1.5 rounded-full text-sm font-medium border-2 transition-all capitalize"
                       style={{
@@ -348,6 +508,26 @@ export default function StoryForm() {
                 })}
               </div>
             </div>
+
+            {/* Free-text plot instructions (optional) */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wide text-text-secondary mb-2">
+                ✏️ {t("instructions_label")}
+              </p>
+              <textarea
+                value={form.instructions}
+                onChange={(e) =>
+                  setForm((f) => ({ ...f, instructions: e.target.value }))
+                }
+                placeholder={t("instructions_placeholder")}
+                maxLength={600}
+                rows={3}
+                className="w-full px-4 py-2.5 rounded-xl border-2 border-transparent text-sm bg-surface-low text-text-primary placeholder:text-text-secondary outline-none transition-colors focus:border-[var(--color-primary)] resize-none"
+              />
+              <p className="text-[11px] text-text-secondary mt-1 text-right">
+                {form.instructions.length}/600
+              </p>
+            </div>
           </div>
         )}
 
@@ -366,10 +546,25 @@ export default function StoryForm() {
 
             {/* Summary */}
             <div className="rounded-xl bg-surface-low p-4 space-y-3">
+              {sagaOrigin && (
+                <SummaryRow
+                  emoji="📚"
+                  label={t("summary_saga")}
+                  value={t("saga_banner", {
+                    chapter: sagaOrigin.sagaLength + 1,
+                    title: sagaOrigin.title,
+                  })}
+                />
+              )}
               <SummaryRow
                 emoji="👤"
                 label={t("summary_characters")}
-                value={form.selectedCharacters.map((c) => c.name).join(", ")}
+                value={(sagaOrigin
+                  ? (sagaOrigin.characters ?? [])
+                  : form.selectedCharacters
+                )
+                  .map((c) => c.name)
+                  .join(", ")}
               />
               <SummaryRow
                 emoji="📖"
@@ -392,6 +587,13 @@ export default function StoryForm() {
                 label={t("summary_duration")}
                 value={`~${form.readingTime} ${t("minutes")}`}
               />
+              {form.instructions.trim() && (
+                <SummaryRow
+                  emoji="✏️"
+                  label={t("summary_instructions")}
+                  value={form.instructions.trim().slice(0, 80)}
+                />
+              )}
             </div>
 
             {/* Error */}
@@ -424,7 +626,15 @@ export default function StoryForm() {
                       d="M4 12a8 8 0 018-8v8H4z"
                     />
                   </svg>
-                  <span className="font-medium">{t("writing")}</span>
+                  <span className="font-medium">
+                    {genStatus === "reviewing"
+                      ? t("status_reviewing")
+                      : genStatus === "retrying"
+                        ? t("status_retrying")
+                        : genStatus === "finalizing"
+                          ? t("status_finalizing")
+                          : t("writing")}
+                  </span>
                 </div>
                 <p className="text-xs text-text-secondary mt-2">
                   {t("writing_wait")}
