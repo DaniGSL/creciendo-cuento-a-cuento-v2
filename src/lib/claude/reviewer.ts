@@ -40,47 +40,64 @@ export interface ReviewResult {
   motivo?: string;
 }
 
+const REVIEW_MAX_ATTEMPTS = 3;
+const REVIEW_RETRY_DELAYS_MS = [300, 800];
+
 /**
- * Revisa un cuento generado. Fail-open: si el revisor falla (red, parseo…),
- * acepta el cuento — el system prompt del generador ya impone las reglas y
- * el revisor es defensa en profundidad, no un punto único de fallo.
+ * Revisa un cuento generado. Fail-closed: si el revisor falla tras varios
+ * reintentos (red, parseo…), el cuento se considera NO apto — la seguridad
+ * de contenido infantil no puede depender de que el revisor esté disponible.
  */
 export async function reviewStory(params: {
   title: string;
   content: string;
 }): Promise<ReviewResult> {
-  try {
-    const client = getReviewerClient();
-    const message = await client.messages.create({
-      model: REVIEW_MODEL,
-      max_tokens: 200,
-      system: REVIEW_SYSTEM_PROMPT,
-      messages: [
-        {
-          role: "user",
-          content: `TÍTULO: ${params.title}\n\nCUENTO:\n"""\n${params.content}\n"""`,
-        },
-      ],
-    });
+  for (let attempt = 1; attempt <= REVIEW_MAX_ATTEMPTS; attempt++) {
+    try {
+      const client = getReviewerClient();
+      const message = await client.messages.create({
+        model: REVIEW_MODEL,
+        max_tokens: 200,
+        system: REVIEW_SYSTEM_PROMPT,
+        messages: [
+          {
+            role: "user",
+            content: `TÍTULO: ${params.title}\n\nCUENTO:\n"""\n${params.content}\n"""`,
+          },
+        ],
+      });
 
-    const raw =
-      message.content[0]?.type === "text" ? message.content[0].text : "";
-    const jsonText = raw.replace(/```json|```/g, "").trim();
-    const match = jsonText.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error("Reviewer returned no JSON");
+      const raw =
+        message.content[0]?.type === "text" ? message.content[0].text : "";
+      const jsonText = raw.replace(/```json|```/g, "").trim();
+      const match = jsonText.match(/\{[\s\S]*\}/);
+      if (!match) throw new Error("Reviewer returned no JSON");
 
-    const parsed = JSON.parse(match[0]) as { apto?: unknown; motivo?: unknown };
-    if (typeof parsed.apto !== "boolean") {
-      throw new Error("Reviewer JSON missing 'apto'");
+      const parsed = JSON.parse(match[0]) as { apto?: unknown; motivo?: unknown };
+      if (typeof parsed.apto !== "boolean") {
+        throw new Error("Reviewer JSON missing 'apto'");
+      }
+      return {
+        apto: parsed.apto,
+        motivo: typeof parsed.motivo === "string" ? parsed.motivo : undefined,
+      };
+    } catch (e) {
+      console.error(
+        `reviewStory error (attempt ${attempt}/${REVIEW_MAX_ATTEMPTS}):`,
+        e
+      );
+      if (attempt < REVIEW_MAX_ATTEMPTS) {
+        await new Promise((resolve) =>
+          setTimeout(resolve, REVIEW_RETRY_DELAYS_MS[attempt - 1])
+        );
+      }
     }
-    return {
-      apto: parsed.apto,
-      motivo: typeof parsed.motivo === "string" ? parsed.motivo : undefined,
-    };
-  } catch (e) {
-    console.error("reviewStory error (fail-open):", e);
-    return { apto: true };
   }
+
+  return {
+    apto: false,
+    motivo: "El revisor de seguridad de contenido no está disponible",
+  };
 }
 
 /**
