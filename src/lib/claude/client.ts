@@ -9,7 +9,7 @@ export function getAnthropicClient(): Anthropic {
     if (!apiKey) {
       throw new Error("ANTHROPIC_API_KEY is not set");
     }
-    client = new Anthropic({ apiKey });
+    client = new Anthropic({ apiKey, maxRetries: 5 });
   }
   return client;
 }

@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@/lib/supabase/server";
 import { requireSession } from "@/lib/auth/session";
 
+// Campos que usa el formulario de generación para ofrecer continuar una saga
+// (sin el texto del cuento, que puede pesar mucho en perfiles con muchos cuentos).
+const STORY_LITE_COLUMNS =
+  "id, title, language, characters, reading_level, genre, saga_id, chapter_number, created_at";
+
 export async function GET(request: NextRequest) {
   try {
     const session = await requireSession();
@@ -10,7 +15,7 @@ export async function GET(request: NextRequest) {
 
     let query = supabase
       .from("stories")
-      .select("*")
+      .select(searchParams.get("fields") === "lite" ? STORY_LITE_COLUMNS : "*")
       .eq("profile_id", session.profileId)
       .order("created_at", { ascending: false });
 

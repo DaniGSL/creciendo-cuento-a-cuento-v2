@@ -87,7 +87,7 @@ export default function StoryForm({
   const [sagaOriginId, setSagaOriginId] = useState<string | null>(null);
 
   useEffect(() => {
-    fetch("/api/stories")
+    fetch("/api/stories?fields=lite")
       .then((r) => r.json())
       .then((data) => {
         if (Array.isArray(data)) setAllStories(data);
